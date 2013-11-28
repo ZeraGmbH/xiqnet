@@ -27,22 +27,49 @@ public:
 
   QList<ProtoNetPeer*> getClientList();
 
+  /**
+   * @brief Incoming connections use the default ProtoNetWrapper for messaging
+   * @param wrapper
+   */
   void setDefaultWrapper(ProtoNetWrapper *wrapper);
 
 signals:
+  /**
+   * @brief A new client connected
+   * @param newClient
+   */
   void sigClientConnected(ProtoNetPeer* newClient);
 
 public slots:
+  /**
+   * @brief Sends the message to all peers of this server
+   * @param pMessage
+   */
   void broadcastMessage(google::protobuf::Message *pMessage);
+
+  /**
+   * @brief Startup code
+   * @param uPort
+   */
   void startServer(quint16 uPort);
 
 protected slots:
+  /**
+   * @brief For reference housekeeping
+   */
   void clientDisconnectedSRV();
 
 protected:
+  /**
+   * @brief Override of QTcpServer function
+   * @param sockDesc
+   */
   void incomingConnection(qintptr sockDesc) override;
 
 private:
+  /**
+   * @brief PIMPL pointer
+   */
   ProtoNetServerPrivate *d_ptr;
 
   Q_DISABLE_COPY(ProtoNetServer)

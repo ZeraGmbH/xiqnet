@@ -28,7 +28,7 @@ private:
 
     QUuid identityUuid;
 
-    /**
+  /**
    * @brief tcpSock
    */
   QTcpSocket* tcpSock;

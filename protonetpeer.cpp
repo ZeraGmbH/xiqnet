@@ -11,7 +11,7 @@ ProtoNetPeer::ProtoNetPeer(QObject *qObjParent) :
 {
 }
 
-ProtoNetPeer::ProtoNetPeer(quint32 socketDescriptor, QObject *qObjParent) :
+ProtoNetPeer::ProtoNetPeer(qintptr socketDescriptor, QObject *qObjParent) :
   QObject(qObjParent),
   d_ptr(new ProtoNetPeerPrivate(this))
 {
