@@ -5,6 +5,6 @@ This is yet another network library based on Qt 5 and Google protobuf.
 
 
 Todo list:
-Doxygen documentation is missing.
-Speed test with logic analyzer is missing.
-Optimization with Valgrind is missing.
+* Doxygen documentation is missing.
+* Speed test with logic analyzer is missing.
+* Optimization with Valgrind is missing.
