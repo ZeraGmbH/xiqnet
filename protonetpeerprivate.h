@@ -26,7 +26,9 @@ private:
    */
   void sendArray(const QByteArray &bA);
 
-    QUuid identityUuid;
+  QUuid identityUuid;
+
+  qint32 socketBufferExpectedSize;
 
   /**
    * @brief tcpSock

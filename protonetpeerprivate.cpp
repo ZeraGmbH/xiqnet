@@ -5,29 +5,41 @@
 
 
 ProtoNetPeerPrivate::ProtoNetPeerPrivate(ProtoNetPeer *pPeer) :
+  socketBufferExpectedSize(0),
   tcpSock(0),
   q_ptr(pPeer)
 {
+
 }
 
 QByteArray ProtoNetPeerPrivate::readArray()
 {
-  if(tcpSock->bytesAvailable())
+  // it is at least required to read the expected size
+  if(tcpSock->bytesAvailable()>=sizeof(qint32))
   {
     QByteArray retVal;
     QDataStream in(tcpSock);
     in.setVersion(QDataStream::Qt_4_0);
-    qint32 expectedSize;
-    in >> expectedSize;
-    if(tcpSock->bytesAvailable()<expectedSize)
+
+    if(socketBufferExpectedSize==0)
     {
-      //error
-      qWarning("[proto-net]Error bytes not available");
+      in >> socketBufferExpectedSize;
+    }
+    if(tcpSock->bytesAvailable()<socketBufferExpectedSize)
+    {
+      //qDebug() << "[proto-net] TCP frame mismatch\nexpected:" << socketBufferExpectedSize << "available:" << tcpSock->bytesAvailable();
     }
     else
     {
       in >> retVal;
-      //qDebug()<<"[proto-net]Receiving message:"<<QString(retVal.toBase64());
+      if(retVal.isEmpty() || retVal.size()>socketBufferExpectedSize)
+      {
+        qWarning() << "[proto-net] Bytes not available:" << QString("%1/%2, remaining: %3")
+                      .arg(retVal.size())
+                      .arg(socketBufferExpectedSize)
+                      .arg(tcpSock->bytesAvailable());
+      }
+      socketBufferExpectedSize=0;
     }
     return retVal;
   }
@@ -41,6 +53,7 @@ void ProtoNetPeerPrivate::sendArray(const QByteArray &bA)
   QDataStream out(&block, QIODevice::WriteOnly);
   out.setVersion(QDataStream::Qt_4_0);
   out << (qint32)0;
+
   //qDebug()<<"[proto-net] Sending message:"<<QString(bA.toBase64());
   out << bA;
   out.device()->seek(0);
