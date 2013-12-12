@@ -15,7 +15,7 @@ ProtoNetPeerPrivate::ProtoNetPeerPrivate(ProtoNetPeer *pPeer) :
 QByteArray ProtoNetPeerPrivate::readArray()
 {
   // it is at least required to read the expected size
-  if(tcpSock->bytesAvailable()>=sizeof(qint32))
+  if(tcpSock->bytesAvailable()>=static_cast<qint64>(sizeof(qint32)))
   {
     QByteArray retVal;
     QDataStream in(tcpSock);

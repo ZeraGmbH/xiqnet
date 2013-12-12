@@ -74,7 +74,7 @@ void ProtoNetPeer::sendMessage(google::protobuf::Message *pMessage)
   }
   else
   {
-    qCritical() << "No protobuf wrapper set";
+    qCritical() << "[programmers-mistake] No protobuf wrapper set";
     Q_ASSERT(false);
   }
 }
@@ -95,7 +95,7 @@ void ProtoNetPeer::startConnection(QHostAddress ipAddress, quint16 port)
   }
   else
   {
-    qCritical() << "Do not re-use ProtoPeer instances, delete & recreate instead";
+    qCritical() << "[programmers-mistake] Do not re-use ProtoPeer instances, delete & recreate instead";
     Q_ASSERT(false);
   }
 }
@@ -110,7 +110,7 @@ void ProtoNetPeer::stopConnection()
   }
   else
   {
-    qCritical() << "Tried to execute stopConnection on null pointer";
+    qCritical() << "[programmers-mistake] Tried to execute stopConnection on null pointer";
     Q_ASSERT(false);
   }
 }
@@ -132,7 +132,7 @@ void ProtoNetPeer::onReadyRead()
   }
   else
   {
-    qCritical() << "No protobuf wrapper set";
+    qCritical() << "[programmers-mistake] No protobuf wrapper set";
     Q_ASSERT(false);
   }
 }
