@@ -3,8 +3,6 @@
 
 #include "protonet-qt_global.h"
 
-//#include "protopeerprivate.h"
-
 #include <QObject>
 #include <QHostAddress>
 

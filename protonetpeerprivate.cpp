@@ -27,7 +27,7 @@ QByteArray ProtoNetPeerPrivate::readArray()
     }
     if(tcpSock->bytesAvailable()<socketBufferExpectedSize)
     {
-      //qDebug() << "[proto-net] TCP frame mismatch\nexpected:" << socketBufferExpectedSize << "available:" << tcpSock->bytesAvailable();
+      // need to wait for missing data
     }
     else
     {

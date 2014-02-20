@@ -24,7 +24,7 @@ ProtoNetPeer::ProtoNetPeer(qintptr socketDescriptor, QObject *qObjParent) :
   if(!d->tcpSock->setSocketDescriptor(socketDescriptor))
   {
     sigSocketError(d->tcpSock->error());
-    qFatal("[proto-net]error setting clients socket descriptor");
+    qFatal("[proto-net] Error setting clients socket descriptor");
     Q_ASSERT(false);
   }
   d->tcpSock->setSocketOption(QAbstractSocket::KeepAliveOption, true);
@@ -95,7 +95,7 @@ void ProtoNetPeer::startConnection(QHostAddress ipAddress, quint16 port)
   }
   else
   {
-    qCritical() << "[programmers-mistake] Do not re-use ProtoPeer instances, delete & recreate instead";
+    qCritical() << "[error] Do not re-use ProtoPeer instances, delete & recreate instead";
     Q_ASSERT(false);
   }
 }
