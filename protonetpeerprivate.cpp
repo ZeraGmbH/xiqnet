@@ -49,18 +49,23 @@ QByteArray ProtoNetPeerPrivate::readArray()
 
 void ProtoNetPeerPrivate::sendArray(const QByteArray &bA)
 {
-  QByteArray block;
-  QDataStream out(&block, QIODevice::WriteOnly);
-  out.setVersion(QDataStream::Qt_4_0);
-  out << (qint32)0;
-
-  //qDebug()<<"[proto-net] Sending message:"<<QString(bA.toBase64());
-  out << bA;
-  out.device()->seek(0);
-  out << (qint32)(block.size() - sizeof(qint32));
-
-  if(!tcpSock->write(block))
+  if(!(tcpSock && tcpSock->isOpen()))
   {
     qDebug()<<"[proto-net] Failed to send message";
   }
+  else
+  {
+    QByteArray block;
+    QDataStream out(&block, QIODevice::WriteOnly);
+    out.setVersion(QDataStream::Qt_4_0);
+    out << (qint32)0;
+
+    //qDebug()<<"[proto-net] Sending message:"<<QString(bA.toBase64());
+    out << bA;
+    out.device()->seek(0);
+    out << (qint32)(block.size() - sizeof(qint32));
+
+    tcpSock->write(block);
+  }
+
 }

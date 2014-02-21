@@ -105,6 +105,9 @@ void ProtoNetPeer::stopConnection()
   Q_D(ProtoNetPeer);
   if(d->tcpSock)
   {
+    //void out the wrapper
+    d->wrapper=0;
+
     d->tcpSock->close();
     //qDebug() << "disconnected";
   }
