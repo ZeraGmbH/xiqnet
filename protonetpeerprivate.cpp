@@ -67,5 +67,4 @@ void ProtoNetPeerPrivate::sendArray(const QByteArray &bA)
 
     tcpSock->write(block);
   }
-
 }

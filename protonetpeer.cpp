@@ -2,13 +2,16 @@
 #include "protonetpeerprivate.h"
 #include "protonetwrapper.h"
 #include <QTcpSocket>
-
+#include <QHostAddress>
 
 
 ProtoNetPeer::ProtoNetPeer(QObject *qObjParent) :
   QObject(qObjParent),
   d_ptr(new ProtoNetPeerPrivate(this))
 {
+  Q_D(ProtoNetPeer);
+  d->tcpSock=0;
+  d->wrapper=0;
 }
 
 ProtoNetPeer::ProtoNetPeer(qintptr socketDescriptor, QObject *qObjParent) :
@@ -17,6 +20,7 @@ ProtoNetPeer::ProtoNetPeer(qintptr socketDescriptor, QObject *qObjParent) :
 {
   Q_D(ProtoNetPeer);
   d->tcpSock = new QTcpSocket(this);
+  d->wrapper = 0;
   connect(d->tcpSock, &QTcpSocket::connected, this, &ProtoNetPeer::sigConnectionEstablished);
   connect(d->tcpSock, &QTcpSocket::readyRead, this, &ProtoNetPeer::onReadyRead);
   connect(d->tcpSock, &QTcpSocket::disconnected, this, &ProtoNetPeer::sigConnectionClosed);
@@ -36,10 +40,10 @@ ProtoNetPeer::~ProtoNetPeer()
 }
 
 
-QHostAddress ProtoNetPeer::getIpAddress()
+QString ProtoNetPeer::getIpAddress()
 {
   Q_D(ProtoNetPeer);
-  return d->tcpSock->peerAddress();
+  return d->tcpSock->peerAddress().toString();
 }
 
 quint16 ProtoNetPeer::getPort()
@@ -51,7 +55,14 @@ quint16 ProtoNetPeer::getPort()
 bool ProtoNetPeer::isConnected()
 {
   Q_D(ProtoNetPeer);
-  return (d->tcpSock->state()==QTcpSocket::ConnectedState);
+  if(d->tcpSock)
+  {
+    return (d->tcpSock->state()==QTcpSocket::ConnectedState || d->tcpSock->state()==QTcpSocket::BoundState);
+  }
+  else
+  {
+    return false;
+  }
 }
 const QUuid &ProtoNetPeer::getIdentityUuid()
 {
@@ -65,21 +76,34 @@ void ProtoNetPeer::setIdentityUuid(const QUuid &identity)
   d->identityUuid = identity;
 }
 
-void ProtoNetPeer::sendMessage(google::protobuf::Message *pMessage)
+QTcpSocket *ProtoNetPeer::getTcpSocket()
 {
   Q_D(ProtoNetPeer);
-  if(d->wrapper)
+  return d->tcpSock;
+}
+
+void ProtoNetPeer::sendMessage(google::protobuf::Message *pMessage)
+{
+  if(isConnected())
   {
-    d->sendArray(d->wrapper->protobufToByteArray(pMessage));
+    Q_D(ProtoNetPeer);
+    if(d->wrapper)
+    {
+      d->sendArray(d->wrapper->protobufToByteArray(pMessage));
+    }
+    else
+    {
+      qCritical() << "[programmers-mistake] No protobuf wrapper set";
+      Q_ASSERT(false);
+    }
   }
   else
   {
-    qCritical() << "[programmers-mistake] No protobuf wrapper set";
-    Q_ASSERT(false);
+    qWarning() << "[protonet-qt] Trying to send data to disconnected host";
   }
 }
 
-void ProtoNetPeer::startConnection(QHostAddress ipAddress, quint16 port)
+void ProtoNetPeer::startConnection(QString ipAddress, quint16 port)
 {
   Q_D(ProtoNetPeer);
   if(d->tcpSock==0)

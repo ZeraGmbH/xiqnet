@@ -4,7 +4,8 @@
 #include "protonet-qt_global.h"
 
 #include <QObject>
-#include <QHostAddress>
+#include <QString>
+#include <QAbstractSocket>
 
 class ProtoNetPeerPrivate;
 class ProtoNetWrapper;
@@ -26,7 +27,7 @@ public:
   ProtoNetPeer(qintptr socketDescriptor, QObject *qObjParent = 0);
   ~ProtoNetPeer();
 
-  QHostAddress getIpAddress();
+  QString getIpAddress();
   quint16 getPort();
   bool isConnected();
 
@@ -41,6 +42,12 @@ public:
    * @param identity
    */
   void setIdentityUuid(const QUuid &identity);
+
+  /**
+   * @brief Allows access to the QTcpSocket in case of non protobuf transmission
+   * @return QTcpSocket used by this instance
+   */
+  QTcpSocket *getTcpSocket();
 
 
   /**
@@ -87,7 +94,7 @@ public slots:
    * @param ipAddress
    * @param port
    */
-  void startConnection(QHostAddress ipAddress, quint16 port);
+  void startConnection(QString ipAddress, quint16 port);
   /**
    * @brief Closes the connection
    */
