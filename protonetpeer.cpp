@@ -25,6 +25,8 @@ ProtoNetPeer::ProtoNetPeer(qintptr socketDescriptor, QObject *qObjParent) :
   connect(d->tcpSock, &QTcpSocket::readyRead, this, &ProtoNetPeer::onReadyRead);
   connect(d->tcpSock, &QTcpSocket::disconnected, this, &ProtoNetPeer::sigConnectionClosed);
   connect(d->tcpSock, SIGNAL(error(QAbstractSocket::SocketError)), this, SIGNAL(sigSocketError(QAbstractSocket::SocketError)));
+
+  connect(d->tcpSock, &QTcpSocket::disconnected, this, &ProtoNetPeer::stopConnection);
   if(!d->tcpSock->setSocketDescriptor(socketDescriptor))
   {
     sigSocketError(d->tcpSock->error());
@@ -114,6 +116,7 @@ void ProtoNetPeer::startConnection(QString ipAddress, quint16 port)
     connect(d->tcpSock, &QTcpSocket::readyRead, this, &ProtoNetPeer::onReadyRead);
     connect(d->tcpSock, &QTcpSocket::disconnected, this, &ProtoNetPeer::sigConnectionClosed);
     connect(d->tcpSock, SIGNAL(error(QAbstractSocket::SocketError)), this, SIGNAL(sigSocketError(QAbstractSocket::SocketError)));
+    connect(d->tcpSock, &QTcpSocket::disconnected, this, &ProtoNetPeer::stopConnection);
     d->tcpSock->connectToHost(ipAddress, port);
     d->tcpSock->setSocketOption(QAbstractSocket::KeepAliveOption, true);
   }
@@ -133,6 +136,8 @@ void ProtoNetPeer::stopConnection()
     d->wrapper=0;
 
     d->tcpSock->close();
+    d->tcpSock->deleteLater();
+    d->tcpSock=0;
     //qDebug() << "disconnected";
   }
   else
@@ -151,6 +156,7 @@ void ProtoNetPeer::onReadyRead()
     newMessage = d->readArray();
     while(!newMessage.isNull())
     {
+      //qDebug() << "[proto-net-qt] Message received: "<<newMessage.toBase64();
       google::protobuf::Message *tmpMessage = d->wrapper->byteArrayToProtobuf(newMessage);
       sigMessageReceived(tmpMessage);
       delete tmpMessage;
