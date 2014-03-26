@@ -73,6 +73,7 @@ signals:
   /**
    * @brief Emitted when incoming messages arrive
    * @param pMessage
+   * @note Do not use the pMessage parameter with Qt::QueuedConnection as it may be deleted before the slot is called
    */
   void sigMessageReceived(google::protobuf::Message *pMessage);
   /**

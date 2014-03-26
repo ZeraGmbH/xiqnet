@@ -34,7 +34,8 @@ QByteArray ProtoNetPeerPrivate::readArray()
       in >> retVal;
       if(retVal.isEmpty() || retVal.size()>socketBufferExpectedSize)
       {
-        qWarning() << "[proto-net] Bytes not available:" << QString("%1/%2, remaining: %3")
+        qWarning() << "[protonet-qt] Bytes not available:"
+                   << QString("%1/%2, remaining: %3")
                       .arg(retVal.size())
                       .arg(socketBufferExpectedSize)
                       .arg(tcpSock->bytesAvailable());
@@ -51,7 +52,7 @@ void ProtoNetPeerPrivate::sendArray(const QByteArray &bA)
 {
   if(!(tcpSock && tcpSock->isOpen()))
   {
-    qDebug()<<"[proto-net] Failed to send message";
+    qDebug()<<"[protonet-qt] Failed to send message";
   }
   else
   {
@@ -60,7 +61,7 @@ void ProtoNetPeerPrivate::sendArray(const QByteArray &bA)
     out.setVersion(QDataStream::Qt_4_0);
     out << (qint32)0;
 
-    //qDebug()<<"[proto-net] Sending message:"<<QString(bA.toBase64());
+    //qDebug()<<"[protonet-qt] Sending message:"<<QString(bA.toBase64());
     out << bA;
     out.device()->seek(0);
     out << (qint32)(block.size() - sizeof(qint32));

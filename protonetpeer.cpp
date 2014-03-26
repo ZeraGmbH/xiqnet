@@ -30,7 +30,7 @@ ProtoNetPeer::ProtoNetPeer(qintptr socketDescriptor, QObject *qObjParent) :
   if(!d->tcpSock->setSocketDescriptor(socketDescriptor))
   {
     sigSocketError(d->tcpSock->error());
-    qFatal("[proto-net] Error setting clients socket descriptor");
+    qFatal("[protonet-qt] Error setting clients socket descriptor");
     Q_ASSERT(false);
   }
   d->tcpSock->setSocketOption(QAbstractSocket::KeepAliveOption, true);
@@ -95,7 +95,7 @@ void ProtoNetPeer::sendMessage(google::protobuf::Message *pMessage)
     }
     else
     {
-      qCritical() << "[programmers-mistake] No protobuf wrapper set";
+      qCritical() << "[protonet-qt] No protobuf wrapper set";
       Q_ASSERT(false);
     }
   }
@@ -122,7 +122,7 @@ void ProtoNetPeer::startConnection(QString ipAddress, quint16 port)
   }
   else
   {
-    qCritical() << "[error] Do not re-use ProtoPeer instances, delete & recreate instead";
+    qCritical() << "[protonet-qt] Do not re-use ProtoPeer instances, delete & recreate instead";
     Q_ASSERT(false);
   }
 }
@@ -142,7 +142,7 @@ void ProtoNetPeer::stopConnection()
   }
   else
   {
-    qCritical() << "[programmers-mistake] Tried to execute stopConnection on null pointer";
+    qCritical() << "[protonet-qt] Tried to execute stopConnection on null pointer";
     Q_ASSERT(false);
   }
 }
@@ -159,13 +159,14 @@ void ProtoNetPeer::onReadyRead()
       //qDebug() << "[proto-net-qt] Message received: "<<newMessage.toBase64();
       google::protobuf::Message *tmpMessage = d->wrapper->byteArrayToProtobuf(newMessage);
       sigMessageReceived(tmpMessage);
+      //assuming that only direct connections are used
       delete tmpMessage;
       newMessage = d->readArray();
     }
   }
   else
   {
-    qCritical() << "[programmers-mistake] No protobuf wrapper set";
+    qCritical() << "[protonet-qr] No protobuf wrapper set";
     Q_ASSERT(false);
   }
 }

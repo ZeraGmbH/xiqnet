@@ -29,9 +29,8 @@ void ProtoNetServer::broadcastMessage(google::protobuf::Message *pMessage)
 
 void ProtoNetServer::startServer(quint16 uPort)
 {
-  /// @todo change default port
   this->listen(QHostAddress::Any, uPort);
-  qDebug()<<"[proto-net]Server Started on port:" << uPort;
+  qDebug()<<"[protonet-qt]Server Started on port:" << uPort;
 }
 
 ProtoNetServer::ProtoNetServer(QObject *qObjParent) :
@@ -48,7 +47,7 @@ ProtoNetServer::~ProtoNetServer()
 void ProtoNetServer::incomingConnection(qintptr sockDesc)
 {
   Q_D(ProtoNetServer);
-  qDebug()<<"[proto-net]Client connected";
+  qDebug()<<"[protonet-qt]Client connected";
 
   ProtoNetPeer *client = new ProtoNetPeer(sockDesc, this);
   if(d->defaultWrapper)
