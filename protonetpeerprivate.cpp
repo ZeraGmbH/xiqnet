@@ -9,7 +9,6 @@ ProtoNetPeerPrivate::ProtoNetPeerPrivate(ProtoNetPeer *pPeer) :
   tcpSock(0),
   q_ptr(pPeer)
 {
-
 }
 
 QByteArray ProtoNetPeerPrivate::readArray()
@@ -66,6 +65,9 @@ void ProtoNetPeerPrivate::sendArray(const QByteArray &bA)
     out.device()->seek(0);
     out << (qint32)(block.size() - sizeof(qint32));
 
-    tcpSock->write(block);
+    if(tcpSock->write(block)<block.size())
+    {
+      qDebug() << "[protonet-qt] could not send all data the network is congested";
+    }
   }
 }

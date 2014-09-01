@@ -12,7 +12,7 @@ class QTcpSocket;
 class ProtoNetPeerPrivate
 {
 private:
-  ProtoNetPeerPrivate(ProtoNetPeer *pPeer);
+  explicit ProtoNetPeerPrivate(ProtoNetPeer *pPeer);
 
   /**
    * @brief readClient

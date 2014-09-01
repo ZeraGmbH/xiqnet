@@ -11,7 +11,10 @@ QT += network
 
 DEFINES += PROTONETQT_LIBRARY
 
-LIBS += -lprotobuf
+unix:LIBS += -lprotobuf
+
+android:LIBS+= -L/home/samuel/tmp/android-protobuf/android_libs/protobuf/obj/local/armeabi-v7a/ -lprotobuf
+android:INCLUDEPATH+="/home/samuel/tmp/android-protobuf/android_libs/protobuf/jni/src/"
 
 # Input
 PUBLIC_HEADERS = \
@@ -39,4 +42,4 @@ header_files.path = /usr/include
 INSTALLS += header_files
 INSTALLS += target
 
-QMAKE_CXXFLAGS += -Wall -Wshadow  -Wfloat-equal
+QMAKE_CXXFLAGS += -Wall -Wfloat-equal

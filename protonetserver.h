@@ -48,7 +48,10 @@ public slots:
   void broadcastMessage(google::protobuf::Message *pMessage);
 
   /**
-   * @brief Startup code
+   * @brief Convenient function for QTcpServer::listen()
+   *
+   * Prints out the server port to the debug message handler
+   *
    * @param uPort
    */
   void startServer(quint16 uPort);
@@ -64,7 +67,7 @@ protected:
    * @brief Override of QTcpServer function
    * @param sockDesc
    */
-  void incomingConnection(qintptr sockDesc); //override;
+  void incomingConnection(qintptr sockDesc) Q_DECL_OVERRIDE;
 
 private:
   /**
