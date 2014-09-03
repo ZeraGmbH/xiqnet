@@ -101,7 +101,7 @@ void ProtoNetPeer::sendMessage(google::protobuf::Message *pMessage)
   }
   else
   {
-    qWarning() << "[protonet-qt] Trying to send data to disconnected host";
+    qWarning() << "[protonet-qt] Trying to send data to disconnected host:" << getIpAddress();
   }
 }
 
