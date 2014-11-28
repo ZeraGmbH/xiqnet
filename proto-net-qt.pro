@@ -3,6 +3,13 @@
 ######################################################################
 
 TEMPLATE = lib
+
+exists( ../../project-paths.pri ) {
+  include(../../project-paths.pri)
+}
+
+
+
 VERSION = 0.0.1
 
 TARGET = proto-net-qt
