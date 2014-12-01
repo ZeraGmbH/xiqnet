@@ -160,7 +160,7 @@ void ProtoNetPeer::onReadyRead()
       google::protobuf::Message *tmpMessage = d->wrapper->byteArrayToProtobuf(newMessage);
       sigMessageReceived(tmpMessage);
       //assuming that only direct connections are used
-      delete tmpMessage;
+      //delete tmpMessage;
       newMessage = d->readArray();
     }
   }
