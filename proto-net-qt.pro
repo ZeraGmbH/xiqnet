@@ -49,4 +49,4 @@ header_files.path = /usr/include
 INSTALLS += header_files
 INSTALLS += target
 
-QMAKE_CXXFLAGS += -Wall -Wfloat-equal
+QMAKE_CXXFLAGS += -Wall -Wfloat-equal -std=c++0x

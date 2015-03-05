@@ -67,7 +67,7 @@ protected:
    * @brief Override of QTcpServer function
    * @param sockDesc
    */
-  void incomingConnection(qintptr sockDesc) Q_DECL_OVERRIDE;
+  void incomingConnection(qintptr sockDesc) override;
 
 private:
   /**
