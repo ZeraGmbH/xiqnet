@@ -76,7 +76,7 @@ int ProtoNetPeer::getPeerId()
 void ProtoNetPeer::setPeerId(int peerId)
 {
   Q_D(ProtoNetPeer);
-  if(peerId>0)
+  if(peerId>=0)
   {
     d->peerId = peerId;
   }
