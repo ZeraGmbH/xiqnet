@@ -32,16 +32,8 @@ public:
   bool isConnected();
 
 
-  /**
-   * @brief Returns the optional identity of this peer
-   * @return
-   */
-  const QUuid &getIdentityUuid();
-  /**
-   * @brief Sets the optional identity of this peer
-   * @param identity
-   */
-  void setIdentityUuid(const QUuid &identity);
+  int getPeerId();
+  void setPeerId(int peerId);
 
   /**
    * @brief Allows access to the QTcpSocket in case of non protobuf transmission

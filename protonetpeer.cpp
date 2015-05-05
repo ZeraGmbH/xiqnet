@@ -66,16 +66,20 @@ bool ProtoNetPeer::isConnected()
     return false;
   }
 }
-const QUuid &ProtoNetPeer::getIdentityUuid()
+
+int ProtoNetPeer::getPeerId()
 {
   Q_D(ProtoNetPeer);
-  return d->identityUuid;
+  return d->peerId;
 }
 
-void ProtoNetPeer::setIdentityUuid(const QUuid &identity)
+void ProtoNetPeer::setPeerId(int peerId)
 {
   Q_D(ProtoNetPeer);
-  d->identityUuid = identity;
+  if(peerId>0)
+  {
+    d->peerId = peerId;
+  }
 }
 
 QTcpSocket *ProtoNetPeer::getTcpSocket()
