@@ -5,6 +5,7 @@
 
 
 ProtoNetPeerPrivate::ProtoNetPeerPrivate(ProtoNetPeer *pPeer) :
+  peerId(-1),
   socketBufferExpectedSize(0),
   tcpSock(0),
   q_ptr(pPeer)
