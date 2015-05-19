@@ -30,7 +30,7 @@ XiQNetPeer::XiQNetPeer(qintptr socketDescriptor, QObject *qObjParent) :
   if(!d->tcpSock->setSocketDescriptor(socketDescriptor))
   {
     sigSocketError(d->tcpSock->error());
-    qFatal("[protonet-qt] Error setting clients socket descriptor");
+    qFatal("[xiqnet-qt] Error setting clients socket descriptor");
     Q_ASSERT(false);
   }
   d->tcpSock->setSocketOption(QAbstractSocket::KeepAliveOption, true);
@@ -99,13 +99,13 @@ void XiQNetPeer::sendMessage(google::protobuf::Message *pMessage)
     }
     else
     {
-      qCritical() << "[protonet-qt] No protobuf wrapper set";
+      qCritical() << "[xiqnet-qt] No protobuf wrapper set";
       Q_ASSERT(false);
     }
   }
   else
   {
-    qWarning() << "[protonet-qt] Trying to send data to disconnected host:" << getIpAddress();
+    qWarning() << "[xiqnet-qt] Trying to send data to disconnected host:" << getIpAddress();
   }
 }
 
@@ -126,7 +126,7 @@ void XiQNetPeer::startConnection(QString ipAddress, quint16 port)
   }
   else
   {
-    qCritical() << "[protonet-qt] Do not re-use ProtoPeer instances, delete & recreate instead";
+    qCritical() << "[xiqnet-qt] Do not re-use ProtoPeer instances, delete & recreate instead";
     Q_ASSERT(false);
   }
 }
@@ -146,7 +146,7 @@ void XiQNetPeer::stopConnection()
   }
   else
   {
-    qCritical() << "[protonet-qt] Tried to execute stopConnection on null pointer";
+    qCritical() << "[xiqnet-qt] Tried to execute stopConnection on null pointer";
     Q_ASSERT(false);
   }
 }

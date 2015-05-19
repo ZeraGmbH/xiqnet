@@ -30,7 +30,7 @@ void XiQNetServer::broadcastMessage(google::protobuf::Message *pMessage)
 void XiQNetServer::startServer(quint16 uPort)
 {
   this->listen(QHostAddress::Any, uPort);
-  qDebug()<<"[protonet-qt]Server Started on port:" << uPort;
+  qDebug()<<"[xiqnet-qt]Server Started on port:" << uPort;
 }
 
 XiQNetServer::XiQNetServer(QObject *qObjParent) :
@@ -47,7 +47,7 @@ XiQNetServer::~XiQNetServer()
 void XiQNetServer::incomingConnection(qintptr sockDesc)
 {
   Q_D(XiQNetServer);
-  qDebug()<<"[protonet-qt]Client connected";
+  qDebug()<<"[xiqnet-qt]Client connected";
 
   XiQNetPeer *client = new XiQNetPeer(sockDesc, this);
   if(d->defaultWrapper)
