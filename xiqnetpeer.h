@@ -1,14 +1,14 @@
 #ifndef PROTOPEER_H
 #define PROTOPEER_H
 
-#include "protonet-qt_global.h"
+#include "xiqnet_global.h"
 
 #include <QObject>
 #include <QString>
 #include <QAbstractSocket>
 
-class ProtoNetPeerPrivate;
-class ProtoNetWrapper;
+class XiQNetPeerPrivate;
+class XiQNetWrapper;
 namespace google
 {
   namespace protobuf
@@ -19,13 +19,13 @@ namespace google
 
 class QTcpSocket;
 
-class PROTO_NET_QTSHARED_EXPORT ProtoNetPeer : public QObject
+class XIQNET_QTSHARED_EXPORT XiQNetPeer : public QObject
 {
   Q_OBJECT
 public:
-  explicit ProtoNetPeer(QObject *qObjParent = 0);
-  ProtoNetPeer(qintptr socketDescriptor, QObject *qObjParent = 0);
-  ~ProtoNetPeer();
+  explicit XiQNetPeer(QObject *qObjParent = 0);
+  XiQNetPeer(qintptr socketDescriptor, QObject *qObjParent = 0);
+  ~XiQNetPeer();
 
   QString getIpAddress();
   quint16 getPort();
@@ -43,15 +43,15 @@ public:
 
 
   /**
-   * @brief Returns a reference to the used ProtoNetWrapper
+   * @brief Returns a reference to the used XiQNetWrapper
    * @return
    */
-  ProtoNetWrapper *getWrapper();
+  XiQNetWrapper *getWrapper();
   /**
-   * @brief Sets the ProtoNetWrapper for this peer
+   * @brief Sets the XiQNetWrapper for this peer
    * @param value
    */
-  void setWrapper(ProtoNetWrapper *value);
+  void setWrapper(XiQNetWrapper *value);
 
 signals:
   /**
@@ -95,7 +95,7 @@ public slots:
 
 protected slots:
   /**
-   * @brief Translates incoming messages to google::protobuf::Message via the ProtoNetWrapper
+   * @brief Translates incoming messages to google::protobuf::Message via the XiQNetWrapper
    */
   void onReadyRead();
 
@@ -103,10 +103,10 @@ private:
   /**
    * @brief PIMPL pointer
    */
-  ProtoNetPeerPrivate *d_ptr;
+  XiQNetPeerPrivate *d_ptr;
 
-  Q_DISABLE_COPY(ProtoNetPeer)
-  Q_DECLARE_PRIVATE(ProtoNetPeer)
+  Q_DISABLE_COPY(XiQNetPeer)
+  Q_DECLARE_PRIVATE(XiQNetPeer)
 };
 
 #endif // PROTOPEER_H

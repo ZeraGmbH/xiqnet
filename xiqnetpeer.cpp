@@ -1,32 +1,32 @@
-#include "protonetpeer.h"
-#include "protonetpeerprivate.h"
-#include "protonetwrapper.h"
+#include "xiqnetpeer.h"
+#include "xiqnetpeerprivate.h"
+#include "xiqnetwrapper.h"
 #include <QTcpSocket>
 #include <QHostAddress>
 
 
-ProtoNetPeer::ProtoNetPeer(QObject *qObjParent) :
+XiQNetPeer::XiQNetPeer(QObject *qObjParent) :
   QObject(qObjParent),
-  d_ptr(new ProtoNetPeerPrivate(this))
+  d_ptr(new XiQNetPeerPrivate(this))
 {
-  Q_D(ProtoNetPeer);
+  Q_D(XiQNetPeer);
   d->tcpSock=0;
   d->wrapper=0;
 }
 
-ProtoNetPeer::ProtoNetPeer(qintptr socketDescriptor, QObject *qObjParent) :
+XiQNetPeer::XiQNetPeer(qintptr socketDescriptor, QObject *qObjParent) :
   QObject(qObjParent),
-  d_ptr(new ProtoNetPeerPrivate(this))
+  d_ptr(new XiQNetPeerPrivate(this))
 {
-  Q_D(ProtoNetPeer);
+  Q_D(XiQNetPeer);
   d->tcpSock = new QTcpSocket(this);
   d->wrapper = 0;
-  connect(d->tcpSock, &QTcpSocket::connected, this, &ProtoNetPeer::sigConnectionEstablished);
-  connect(d->tcpSock, &QTcpSocket::readyRead, this, &ProtoNetPeer::onReadyRead);
-  connect(d->tcpSock, &QTcpSocket::disconnected, this, &ProtoNetPeer::sigConnectionClosed);
+  connect(d->tcpSock, &QTcpSocket::connected, this, &XiQNetPeer::sigConnectionEstablished);
+  connect(d->tcpSock, &QTcpSocket::readyRead, this, &XiQNetPeer::onReadyRead);
+  connect(d->tcpSock, &QTcpSocket::disconnected, this, &XiQNetPeer::sigConnectionClosed);
   connect(d->tcpSock, SIGNAL(error(QAbstractSocket::SocketError)), this, SIGNAL(sigSocketError(QAbstractSocket::SocketError)));
 
-  connect(d->tcpSock, &QTcpSocket::disconnected, this, &ProtoNetPeer::stopConnection);
+  connect(d->tcpSock, &QTcpSocket::disconnected, this, &XiQNetPeer::stopConnection);
   if(!d->tcpSock->setSocketDescriptor(socketDescriptor))
   {
     sigSocketError(d->tcpSock->error());
@@ -36,27 +36,27 @@ ProtoNetPeer::ProtoNetPeer(qintptr socketDescriptor, QObject *qObjParent) :
   d->tcpSock->setSocketOption(QAbstractSocket::KeepAliveOption, true);
 }
 
-ProtoNetPeer::~ProtoNetPeer()
+XiQNetPeer::~XiQNetPeer()
 {
   delete d_ptr;
 }
 
 
-QString ProtoNetPeer::getIpAddress()
+QString XiQNetPeer::getIpAddress()
 {
-  Q_D(ProtoNetPeer);
+  Q_D(XiQNetPeer);
   return d->tcpSock->peerAddress().toString();
 }
 
-quint16 ProtoNetPeer::getPort()
+quint16 XiQNetPeer::getPort()
 {
-  Q_D(ProtoNetPeer);
+  Q_D(XiQNetPeer);
   return d->tcpSock->peerPort();
 }
 
-bool ProtoNetPeer::isConnected()
+bool XiQNetPeer::isConnected()
 {
-  Q_D(ProtoNetPeer);
+  Q_D(XiQNetPeer);
   if(d->tcpSock)
   {
     return (d->tcpSock->state()==QTcpSocket::ConnectedState || d->tcpSock->state()==QTcpSocket::BoundState);
@@ -67,32 +67,32 @@ bool ProtoNetPeer::isConnected()
   }
 }
 
-int ProtoNetPeer::getPeerId()
+int XiQNetPeer::getPeerId()
 {
-  Q_D(ProtoNetPeer);
+  Q_D(XiQNetPeer);
   return d->peerId;
 }
 
-void ProtoNetPeer::setPeerId(int peerId)
+void XiQNetPeer::setPeerId(int peerId)
 {
-  Q_D(ProtoNetPeer);
+  Q_D(XiQNetPeer);
   if(peerId>=0)
   {
     d->peerId = peerId;
   }
 }
 
-QTcpSocket *ProtoNetPeer::getTcpSocket()
+QTcpSocket *XiQNetPeer::getTcpSocket()
 {
-  Q_D(ProtoNetPeer);
+  Q_D(XiQNetPeer);
   return d->tcpSock;
 }
 
-void ProtoNetPeer::sendMessage(google::protobuf::Message *pMessage)
+void XiQNetPeer::sendMessage(google::protobuf::Message *pMessage)
 {
   if(isConnected())
   {
-    Q_D(ProtoNetPeer);
+    Q_D(XiQNetPeer);
     if(d->wrapper)
     {
       d->sendArray(d->wrapper->protobufToByteArray(pMessage));
@@ -109,18 +109,18 @@ void ProtoNetPeer::sendMessage(google::protobuf::Message *pMessage)
   }
 }
 
-void ProtoNetPeer::startConnection(QString ipAddress, quint16 port)
+void XiQNetPeer::startConnection(QString ipAddress, quint16 port)
 {
-  Q_D(ProtoNetPeer);
+  Q_D(XiQNetPeer);
   if(d->tcpSock==0)
   {
     d->tcpSock= new QTcpSocket(this);
 
-    connect(d->tcpSock, &QTcpSocket::connected, this, &ProtoNetPeer::sigConnectionEstablished);
-    connect(d->tcpSock, &QTcpSocket::readyRead, this, &ProtoNetPeer::onReadyRead);
-    connect(d->tcpSock, &QTcpSocket::disconnected, this, &ProtoNetPeer::sigConnectionClosed);
+    connect(d->tcpSock, &QTcpSocket::connected, this, &XiQNetPeer::sigConnectionEstablished);
+    connect(d->tcpSock, &QTcpSocket::readyRead, this, &XiQNetPeer::onReadyRead);
+    connect(d->tcpSock, &QTcpSocket::disconnected, this, &XiQNetPeer::sigConnectionClosed);
     connect(d->tcpSock, SIGNAL(error(QAbstractSocket::SocketError)), this, SIGNAL(sigSocketError(QAbstractSocket::SocketError)));
-    connect(d->tcpSock, &QTcpSocket::disconnected, this, &ProtoNetPeer::stopConnection);
+    connect(d->tcpSock, &QTcpSocket::disconnected, this, &XiQNetPeer::stopConnection);
     d->tcpSock->connectToHost(ipAddress, port);
     d->tcpSock->setSocketOption(QAbstractSocket::KeepAliveOption, true);
   }
@@ -131,9 +131,9 @@ void ProtoNetPeer::startConnection(QString ipAddress, quint16 port)
   }
 }
 
-void ProtoNetPeer::stopConnection()
+void XiQNetPeer::stopConnection()
 {
-  Q_D(ProtoNetPeer);
+  Q_D(XiQNetPeer);
   if(d->tcpSock)
   {
     //void out the wrapper
@@ -151,9 +151,9 @@ void ProtoNetPeer::stopConnection()
   }
 }
 
-void ProtoNetPeer::onReadyRead()
+void XiQNetPeer::onReadyRead()
 {
-  Q_D(ProtoNetPeer);
+  Q_D(XiQNetPeer);
   if(d->wrapper)
   {
     QByteArray newMessage;
@@ -174,15 +174,15 @@ void ProtoNetPeer::onReadyRead()
     Q_ASSERT(false);
   }
 }
-ProtoNetWrapper *ProtoNetPeer::getWrapper()
+XiQNetWrapper *XiQNetPeer::getWrapper()
 {
-  Q_D(ProtoNetPeer);
+  Q_D(XiQNetPeer);
   return d->wrapper;
 }
 
-void ProtoNetPeer::setWrapper(ProtoNetWrapper *value)
+void XiQNetPeer::setWrapper(XiQNetWrapper *value)
 {
-  Q_D(ProtoNetPeer);
+  Q_D(XiQNetPeer);
   d->wrapper = value;
 }
 

@@ -12,11 +12,11 @@ exists( ../../project-paths.pri ) {
 
 VERSION = 0.0.1
 
-TARGET = proto-net-qt
+TARGET = xiqnet
 
 QT += network
 
-DEFINES += PROTONETQT_LIBRARY
+DEFINES += XIQNET_LIBRARY
 
 unix:LIBS += -lprotobuf
 
@@ -25,21 +25,21 @@ android:INCLUDEPATH+="/home/samuel/tmp/android-protobuf/android_libs/protobuf/jn
 
 # Input
 PUBLIC_HEADERS = \
-                 protonet-qt_global.h \
-                 protonetpeer.h \
-                 protonetserver.h \
-                 protonetwrapper.h
+                 xiqnet_global.h \
+                 xiqnetpeer.h \
+                 xiqnetserver.h \
+                 xiqnetwrapper.h
 
 HEADERS += \
            $$PUBLIC_HEADERS \
-           protonetpeerprivate.h \
-           protonetserverprivate.h
+           xiqnetpeerprivate.h \
+           xiqnetserverprivate.h
 
 SOURCES += \
-    protonetpeer.cpp \
-    protonetpeerprivate.cpp \
-    protonetserver.cpp \
-    protonetserverprivate.cpp
+    xiqnetpeer.cpp \
+    xiqnetpeerprivate.cpp \
+    xiqnetserver.cpp \
+    xiqnetserverprivate.cpp
 
 
 target.path = /usr/lib

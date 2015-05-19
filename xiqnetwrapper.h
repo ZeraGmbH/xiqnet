@@ -10,7 +10,7 @@
  *
  * It has to be implemented to use the "user specific" protocol buffers
  */
-class ProtoNetWrapper
+class XiQNetWrapper
 {
 public:
   /**

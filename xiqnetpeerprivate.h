@@ -1,18 +1,18 @@
 #ifndef PROTOPEERPRIVATE_H
 #define PROTOPEERPRIVATE_H
 
-#include "protonetwrapper.h"
+#include "xiqnetwrapper.h"
 
 #include <QUuid>
 
-class ProtoNetPeer;
+class XiQNetPeer;
 
 class QTcpSocket;
 
-class ProtoNetPeerPrivate
+class XiQNetPeerPrivate
 {
 private:
-  explicit ProtoNetPeerPrivate(ProtoNetPeer *pPeer);
+  explicit XiQNetPeerPrivate(XiQNetPeer *pPeer);
 
   /**
    * @brief readClient
@@ -38,11 +38,11 @@ private:
   /**
    * @brief q_ptr see topic D'Pointer
    */
-  ProtoNetPeer *q_ptr;
+  XiQNetPeer *q_ptr;
 
-  ProtoNetWrapper *wrapper;
+  XiQNetWrapper *wrapper;
 
-  Q_DECLARE_PUBLIC(ProtoNetPeer)
+  Q_DECLARE_PUBLIC(XiQNetPeer)
 };
 
 #endif // PROTOPEERPRIVATE_H

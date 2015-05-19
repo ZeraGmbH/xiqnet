@@ -1,15 +1,15 @@
-#ifndef H2012_PROTONET_SERVER_PUB_H
-#define H2012_PROTONET_SERVER_PUB_H
+#ifndef H2012_protonet_SERVER_PUB_H
+#define H2012_protonet_SERVER_PUB_H
 
-#include "protonet-qt_global.h"
+#include "xiqnet_global.h"
 
 #include <QTcpServer>
 
 #include <QList>
 
-class ProtoNetServerPrivate;
-class ProtoNetPeer;
-class ProtoNetWrapper;
+class XiQNetServerPrivate;
+class XiQNetPeer;
+class XiQNetWrapper;
 namespace google
 {
   namespace protobuf
@@ -18,27 +18,27 @@ namespace google
   }
 }
 
-class PROTO_NET_QTSHARED_EXPORT ProtoNetServer : public QTcpServer
+class XIQNET_QTSHARED_EXPORT XiQNetServer : public QTcpServer
 {
   Q_OBJECT
 public:
-  explicit ProtoNetServer(QObject* qObjParent = 0);
-  ~ProtoNetServer();
+  explicit XiQNetServer(QObject* qObjParent = 0);
+  ~XiQNetServer();
 
-  QList<ProtoNetPeer*> getClientList();
+  QList<XiQNetPeer*> getClientList();
 
   /**
-   * @brief Incoming connections use the default ProtoNetWrapper for messaging
+   * @brief Incoming connections use the default XiQNetWrapper for messaging
    * @param wrapper
    */
-  void setDefaultWrapper(ProtoNetWrapper *wrapper);
+  void setDefaultWrapper(XiQNetWrapper *wrapper);
 
 signals:
   /**
    * @brief A new client connected
    * @param newClient
    */
-  void sigClientConnected(ProtoNetPeer* newClient);
+  void sigClientConnected(XiQNetPeer* newClient);
 
 public slots:
   /**
@@ -73,10 +73,10 @@ private:
   /**
    * @brief PIMPL pointer
    */
-  ProtoNetServerPrivate *d_ptr;
+  XiQNetServerPrivate *d_ptr;
 
-  Q_DISABLE_COPY(ProtoNetServer)
-  Q_DECLARE_PRIVATE(ProtoNetServer)
+  Q_DISABLE_COPY(XiQNetServer)
+  Q_DECLARE_PRIVATE(XiQNetServer)
 };
 
-#endif // H2012_PROTONET_SERVER_H
+#endif // H2012_protonet_SERVER_H

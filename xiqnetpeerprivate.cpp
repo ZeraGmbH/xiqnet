@@ -1,10 +1,10 @@
-#include "protonetpeerprivate.h"
+#include "xiqnetpeerprivate.h"
 
 #include <QDataStream>
 #include <QTcpSocket>
 
 
-ProtoNetPeerPrivate::ProtoNetPeerPrivate(ProtoNetPeer *pPeer) :
+XiQNetPeerPrivate::XiQNetPeerPrivate(XiQNetPeer *pPeer) :
   peerId(-1),
   socketBufferExpectedSize(0),
   tcpSock(0),
@@ -12,7 +12,7 @@ ProtoNetPeerPrivate::ProtoNetPeerPrivate(ProtoNetPeer *pPeer) :
 {
 }
 
-QByteArray ProtoNetPeerPrivate::readArray()
+QByteArray XiQNetPeerPrivate::readArray()
 {
   // it is at least required to read the expected size
   if(tcpSock->bytesAvailable()>=static_cast<qint64>(sizeof(qint32)))
@@ -48,7 +48,7 @@ QByteArray ProtoNetPeerPrivate::readArray()
     return QByteArray();
 }
 
-void ProtoNetPeerPrivate::sendArray(const QByteArray &bA)
+void XiQNetPeerPrivate::sendArray(const QByteArray &bA)
 {
   if(!(tcpSock && tcpSock->isOpen()))
   {
