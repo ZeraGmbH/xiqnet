@@ -3,38 +3,10 @@
 
 #include "xiqnetpeer.h"
 
-QList<XiQNetPeer *> XiQNetServer::getClientList()
-{
-  Q_D(XiQNetServer);
-  return d->clients;
-}
 
-void XiQNetServer::setDefaultWrapper(XiQNetWrapper *wrapper)
-{
-  if(wrapper)
-  {
-    Q_D(XiQNetServer);
-    d->defaultWrapper = wrapper;
-  }
-}
 
-void XiQNetServer::broadcastMessage(google::protobuf::Message *pMessage)
-{
-  Q_D(XiQNetServer);
-  foreach(XiQNetPeer* c,d->clients)
-  {
-    c->sendMessage(pMessage);
-  }
-}
-
-void XiQNetServer::startServer(quint16 uPort)
-{
-  this->listen(QHostAddress::Any, uPort);
-  qDebug()<<"[xiqnet-qt]Server Started on port:" << uPort;
-}
-
-XiQNetServer::XiQNetServer(QObject *qObjParent) :
-  QTcpServer(qObjParent),
+XiQNetServer::XiQNetServer(QObject *t_parent) :
+  QTcpServer(t_parent),
   d_ptr(new XiQNetServerPrivate(this))
 {
 }
@@ -44,19 +16,34 @@ XiQNetServer::~XiQNetServer()
   delete d_ptr;
 }
 
-void XiQNetServer::incomingConnection(qintptr sockDesc)
+QList<XiQNetPeer *> XiQNetServer::getClientList()
 {
   Q_D(XiQNetServer);
-  qDebug()<<"[xiqnet-qt]Client connected";
+  return d->clients;
+}
 
-  XiQNetPeer *client = new XiQNetPeer(sockDesc, this);
-  if(d->defaultWrapper)
+void XiQNetServer::setDefaultWrapper(XiQNetWrapper *t_wrapper)
+{
+  if(t_wrapper)
   {
-    client->setWrapper(d->defaultWrapper);
+    Q_D(XiQNetServer);
+    d->defaultWrapper = t_wrapper;
   }
-  d->clients.append(client);
-  connect(client, &XiQNetPeer::sigConnectionClosed, this, &XiQNetServer::clientDisconnectedSRV);
-  sigClientConnected(client);
+}
+
+void XiQNetServer::broadcastMessage(google::protobuf::Message *t_message)
+{
+  Q_D(XiQNetServer);
+  foreach(XiQNetPeer* c,d->clients)
+  {
+    c->sendMessage(t_message);
+  }
+}
+
+void XiQNetServer::startServer(quint16 t_port)
+{
+  this->listen(QHostAddress::Any, t_port);
+  qDebug()<<"[xiqnet-qt]Server Started on port:" << t_port;
 }
 
 void XiQNetServer::clientDisconnectedSRV()
@@ -72,4 +59,19 @@ void XiQNetServer::clientDisconnectedSRV()
       client->deleteLater();
     }
   }
+}
+
+void XiQNetServer::incomingConnection(qintptr t_socketDescriptor)
+{
+  Q_D(XiQNetServer);
+  qDebug()<<"[xiqnet-qt]Client connected";
+
+  XiQNetPeer *client = new XiQNetPeer(t_socketDescriptor, this);
+  if(d->defaultWrapper)
+  {
+    client->setWrapper(d->defaultWrapper);
+  }
+  d->clients.append(client);
+  connect(client, &XiQNetPeer::sigConnectionClosed, this, &XiQNetServer::clientDisconnectedSRV);
+  sigClientConnected(client);
 }

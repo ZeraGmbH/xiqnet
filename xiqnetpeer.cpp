@@ -5,8 +5,8 @@
 #include <QHostAddress>
 
 
-XiQNetPeer::XiQNetPeer(QObject *qObjParent) :
-  QObject(qObjParent),
+XiQNetPeer::XiQNetPeer(QObject *t_parent) :
+  QObject(t_parent),
   d_ptr(new XiQNetPeerPrivate(this))
 {
   Q_D(XiQNetPeer);
@@ -14,8 +14,8 @@ XiQNetPeer::XiQNetPeer(QObject *qObjParent) :
   d->wrapper=0;
 }
 
-XiQNetPeer::XiQNetPeer(qintptr socketDescriptor, QObject *qObjParent) :
-  QObject(qObjParent),
+XiQNetPeer::XiQNetPeer(qintptr t_socketDescriptor, QObject *t_parent) :
+  QObject(t_parent),
   d_ptr(new XiQNetPeerPrivate(this))
 {
   Q_D(XiQNetPeer);
@@ -27,7 +27,7 @@ XiQNetPeer::XiQNetPeer(qintptr socketDescriptor, QObject *qObjParent) :
   connect(d->tcpSock, SIGNAL(error(QAbstractSocket::SocketError)), this, SIGNAL(sigSocketError(QAbstractSocket::SocketError)));
 
   connect(d->tcpSock, &QTcpSocket::disconnected, this, &XiQNetPeer::stopConnection);
-  if(!d->tcpSock->setSocketDescriptor(socketDescriptor))
+  if(!d->tcpSock->setSocketDescriptor(t_socketDescriptor))
   {
     sigSocketError(d->tcpSock->error());
     qFatal("[xiqnet-qt] Error setting clients socket descriptor");
@@ -73,12 +73,12 @@ int XiQNetPeer::getPeerId()
   return d->peerId;
 }
 
-void XiQNetPeer::setPeerId(int peerId)
+void XiQNetPeer::setPeerId(int t_peerId)
 {
   Q_D(XiQNetPeer);
-  if(peerId>=0)
+  if(t_peerId>=0)
   {
-    d->peerId = peerId;
+    d->peerId = t_peerId;
   }
 }
 
@@ -88,14 +88,14 @@ QTcpSocket *XiQNetPeer::getTcpSocket()
   return d->tcpSock;
 }
 
-void XiQNetPeer::sendMessage(google::protobuf::Message *pMessage)
+void XiQNetPeer::sendMessage(google::protobuf::Message *t_message)
 {
   if(isConnected())
   {
     Q_D(XiQNetPeer);
     if(d->wrapper)
     {
-      d->sendArray(d->wrapper->protobufToByteArray(pMessage));
+      d->sendArray(d->wrapper->protobufToByteArray(t_message));
     }
     else
     {
@@ -109,7 +109,7 @@ void XiQNetPeer::sendMessage(google::protobuf::Message *pMessage)
   }
 }
 
-void XiQNetPeer::startConnection(QString ipAddress, quint16 port)
+void XiQNetPeer::startConnection(QString t_ipAddress, quint16 t_port)
 {
   Q_D(XiQNetPeer);
   if(d->tcpSock==0)
@@ -121,7 +121,7 @@ void XiQNetPeer::startConnection(QString ipAddress, quint16 port)
     connect(d->tcpSock, &QTcpSocket::disconnected, this, &XiQNetPeer::sigConnectionClosed);
     connect(d->tcpSock, SIGNAL(error(QAbstractSocket::SocketError)), this, SIGNAL(sigSocketError(QAbstractSocket::SocketError)));
     connect(d->tcpSock, &QTcpSocket::disconnected, this, &XiQNetPeer::stopConnection);
-    d->tcpSock->connectToHost(ipAddress, port);
+    d->tcpSock->connectToHost(t_ipAddress, t_port);
     d->tcpSock->setSocketOption(QAbstractSocket::KeepAliveOption, true);
   }
   else

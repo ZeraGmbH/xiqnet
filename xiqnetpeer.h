@@ -23,8 +23,8 @@ class XIQNET_QTSHARED_EXPORT XiQNetPeer : public QObject
 {
   Q_OBJECT
 public:
-  explicit XiQNetPeer(QObject *qObjParent = 0);
-  XiQNetPeer(qintptr socketDescriptor, QObject *qObjParent = 0);
+  explicit XiQNetPeer(QObject *t_parent = 0);
+  XiQNetPeer(qintptr t_socketDescriptor, QObject *t_parent = 0);
   ~XiQNetPeer();
 
   QString getIpAddress();
@@ -33,7 +33,7 @@ public:
 
 
   int getPeerId();
-  void setPeerId(int peerId);
+  void setPeerId(int t_peerId);
 
   /**
    * @brief Allows access to the QTcpSocket in case of non protobuf transmission
@@ -67,7 +67,7 @@ signals:
    * @param pMessage
    * @note Do not use the pMessage parameter with Qt::QueuedConnection as it may be deleted before the slot is called
    */
-  void sigMessageReceived(google::protobuf::Message *pMessage);
+  void sigMessageReceived(google::protobuf::Message *t_Message);
   /**
    * @brief Emitted on socket failure
    * @param socketError
@@ -79,7 +79,7 @@ public slots:
    * @brief Transmits the message
    * @param pMessage
    */
-  void sendMessage(google::protobuf::Message *pMessage);
+  void sendMessage(google::protobuf::Message *t_message);
   /**
    * @brief Starts the connection in case of a dedicated host connection
    *
@@ -87,7 +87,7 @@ public slots:
    * @param ipAddress
    * @param port
    */
-  void startConnection(QString ipAddress, quint16 port);
+  void startConnection(QString t_ipAddress, quint16 t_port);
   /**
    * @brief Closes the connection
    */
@@ -103,7 +103,7 @@ private:
   /**
    * @brief PIMPL pointer
    */
-  XiQNetPeerPrivate *d_ptr;
+  XiQNetPeerPrivate *d_ptr = 0;
 
   Q_DISABLE_COPY(XiQNetPeer)
   Q_DECLARE_PRIVATE(XiQNetPeer)

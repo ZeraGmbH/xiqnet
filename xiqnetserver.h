@@ -22,7 +22,7 @@ class XIQNET_QTSHARED_EXPORT XiQNetServer : public QTcpServer
 {
   Q_OBJECT
 public:
-  explicit XiQNetServer(QObject* qObjParent = 0);
+  explicit XiQNetServer(QObject* t_parent = 0);
   ~XiQNetServer();
 
   QList<XiQNetPeer*> getClientList();
@@ -31,21 +31,21 @@ public:
    * @brief Incoming connections use the default XiQNetWrapper for messaging
    * @param wrapper
    */
-  void setDefaultWrapper(XiQNetWrapper *wrapper);
+  void setDefaultWrapper(XiQNetWrapper *t_wrapper);
 
 signals:
   /**
    * @brief A new client connected
    * @param newClient
    */
-  void sigClientConnected(XiQNetPeer* newClient);
+  void sigClientConnected(XiQNetPeer* t_peer);
 
 public slots:
   /**
    * @brief Sends the message to all peers of this server
    * @param pMessage
    */
-  void broadcastMessage(google::protobuf::Message *pMessage);
+  void broadcastMessage(google::protobuf::Message *t_message);
 
   /**
    * @brief Convenient function for QTcpServer::listen()
@@ -54,7 +54,7 @@ public slots:
    *
    * @param uPort
    */
-  void startServer(quint16 uPort);
+  void startServer(quint16 t_port);
 
 protected slots:
   /**
@@ -67,13 +67,13 @@ protected:
    * @brief Override of QTcpServer function
    * @param sockDesc
    */
-  void incomingConnection(qintptr sockDesc) override;
+  void incomingConnection(qintptr t_socketDescriptor) override;
 
 private:
   /**
    * @brief PIMPL pointer
    */
-  XiQNetServerPrivate *d_ptr;
+  XiQNetServerPrivate *d_ptr = 0;
 
   Q_DISABLE_COPY(XiQNetServer)
   Q_DECLARE_PRIVATE(XiQNetServer)

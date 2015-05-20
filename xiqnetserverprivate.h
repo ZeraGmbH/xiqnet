@@ -10,15 +10,13 @@ class XiQNetWrapper;
 
 class XiQNetServerPrivate
 {
-protected:
-  XiQNetServerPrivate(XiQNetServer *parent);
+  XiQNetServerPrivate(XiQNetServer *t_public);
   ~XiQNetServerPrivate();
+
   QList<XiQNetPeer*> clients;
-  XiQNetWrapper *defaultWrapper;
-  XiQNetServer *q_ptr;
+  XiQNetWrapper *defaultWrapper = 0;
+  XiQNetServer *q_ptr = 0;
 
-
-private:
   Q_DISABLE_COPY(XiQNetServerPrivate)
   Q_DECLARE_PUBLIC(XiQNetServer)
 };

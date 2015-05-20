@@ -4,11 +4,7 @@
 #include <QTcpSocket>
 
 
-XiQNetPeerPrivate::XiQNetPeerPrivate(XiQNetPeer *pPeer) :
-  peerId(-1),
-  socketBufferExpectedSize(0),
-  tcpSock(0),
-  q_ptr(pPeer)
+XiQNetPeerPrivate::XiQNetPeerPrivate(XiQNetPeer *t_publicPeer) :  q_ptr(t_publicPeer)
 {
 }
 
@@ -48,7 +44,7 @@ QByteArray XiQNetPeerPrivate::readArray()
     return QByteArray();
 }
 
-void XiQNetPeerPrivate::sendArray(const QByteArray &bA)
+void XiQNetPeerPrivate::sendArray(const QByteArray &t_byteArray)
 {
   if(!(tcpSock && tcpSock->isOpen()))
   {
@@ -62,7 +58,7 @@ void XiQNetPeerPrivate::sendArray(const QByteArray &bA)
     out << (qint32)0;
 
     //qDebug()<<"[xiqnet-qt] Sending message:"<<QString(bA.toBase64());
-    out << bA;
+    out << t_byteArray;
     out.device()->seek(0);
     out << (qint32)(block.size() - sizeof(qint32));
 
