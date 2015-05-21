@@ -24,29 +24,30 @@ class XIQNET_QTSHARED_EXPORT XiQNetPeer : public QObject
   Q_OBJECT
 public:
   explicit XiQNetPeer(QObject *t_parent = 0);
-  XiQNetPeer(qintptr t_socketDescriptor, QObject *t_parent = 0);
+  explicit XiQNetPeer(qintptr t_socketDescriptor, QObject *t_parent = 0);
+
   ~XiQNetPeer();
 
-  QString getIpAddress();
-  quint16 getPort();
-  bool isConnected();
+  QString getIpAddress() const;
+  quint16 getPort() const;
+  bool isConnected() const;
 
 
-  int getPeerId();
+  int getPeerId() const;
   void setPeerId(int t_peerId);
 
   /**
    * @brief Allows access to the QTcpSocket in case of non protobuf transmission
    * @return QTcpSocket used by this instance
    */
-  QTcpSocket *getTcpSocket();
+  QTcpSocket *getTcpSocket() const;
 
 
   /**
    * @brief Returns a reference to the used XiQNetWrapper
    * @return
    */
-  XiQNetWrapper *getWrapper();
+  XiQNetWrapper *getWrapper() const;
   /**
    * @brief Sets the XiQNetWrapper for this peer
    * @param value
@@ -72,14 +73,14 @@ signals:
    * @brief Emitted on socket failure
    * @param socketError
    */
-  void sigSocketError(QAbstractSocket::SocketError socketError);
+  void sigSocketError(QAbstractSocket::SocketError t_socketError);
 
 public slots:
   /**
    * @brief Transmits the message
    * @param pMessage
    */
-  void sendMessage(google::protobuf::Message *t_message);
+  void sendMessage(google::protobuf::Message *t_message) const;
   /**
    * @brief Starts the connection in case of a dedicated host connection
    *

@@ -19,7 +19,7 @@ XiQNetServer::~XiQNetServer()
 QList<XiQNetPeer *> XiQNetServer::getClientList()
 {
   Q_D(XiQNetServer);
-  return d->clients;
+  return d->m_clients;
 }
 
 void XiQNetServer::setDefaultWrapper(XiQNetWrapper *t_wrapper)
@@ -27,14 +27,14 @@ void XiQNetServer::setDefaultWrapper(XiQNetWrapper *t_wrapper)
   if(t_wrapper)
   {
     Q_D(XiQNetServer);
-    d->defaultWrapper = t_wrapper;
+    d->m_defaultWrapper = t_wrapper;
   }
 }
 
 void XiQNetServer::broadcastMessage(google::protobuf::Message *t_message)
 {
   Q_D(XiQNetServer);
-  foreach(XiQNetPeer* c,d->clients)
+  foreach(XiQNetPeer* c,d->m_clients)
   {
     c->sendMessage(t_message);
   }
@@ -54,7 +54,7 @@ void XiQNetServer::clientDisconnectedSRV()
     if(client)
     {
       Q_D(XiQNetServer);
-      d->clients.removeAll(client);
+      d->m_clients.removeAll(client);
       //this should be only done if no one uses the client anymore
       client->deleteLater();
     }
@@ -67,11 +67,11 @@ void XiQNetServer::incomingConnection(qintptr t_socketDescriptor)
   qDebug()<<"[xiqnet-qt]Client connected";
 
   XiQNetPeer *client = new XiQNetPeer(t_socketDescriptor, this);
-  if(d->defaultWrapper)
+  if(d->m_defaultWrapper)
   {
-    client->setWrapper(d->defaultWrapper);
+    client->setWrapper(d->m_defaultWrapper);
   }
-  d->clients.append(client);
+  d->m_clients.append(client);
   connect(client, &XiQNetPeer::sigConnectionClosed, this, &XiQNetServer::clientDisconnectedSRV);
   sigClientConnected(client);
 }

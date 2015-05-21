@@ -11,32 +11,32 @@ XiQNetPeerPrivate::XiQNetPeerPrivate(XiQNetPeer *t_publicPeer) :  q_ptr(t_public
 QByteArray XiQNetPeerPrivate::readArray()
 {
   // it is at least required to read the expected size
-  if(tcpSock->bytesAvailable()>=static_cast<qint64>(sizeof(qint32)))
+  if(m_tcpSock->bytesAvailable()>=static_cast<qint64>(sizeof(qint32)))
   {
     QByteArray retVal;
-    QDataStream in(tcpSock);
+    QDataStream in(m_tcpSock);
     in.setVersion(QDataStream::Qt_4_0);
 
-    if(socketBufferExpectedSize==0)
+    if(m_socketBufferExpectedSize==0)
     {
-      in >> socketBufferExpectedSize;
+      in >> m_socketBufferExpectedSize;
     }
-    if(tcpSock->bytesAvailable()<socketBufferExpectedSize)
+    if(m_tcpSock->bytesAvailable()<m_socketBufferExpectedSize)
     {
       // need to wait for missing data
     }
     else
     {
       in >> retVal;
-      if(retVal.isEmpty() || retVal.size()>socketBufferExpectedSize)
+      if(retVal.isEmpty() || retVal.size()>m_socketBufferExpectedSize)
       {
         qWarning() << "[xiqnet-qt] Bytes not available:"
                    << QString("%1/%2, remaining: %3")
                       .arg(retVal.size())
-                      .arg(socketBufferExpectedSize)
-                      .arg(tcpSock->bytesAvailable());
+                      .arg(m_socketBufferExpectedSize)
+                      .arg(m_tcpSock->bytesAvailable());
       }
-      socketBufferExpectedSize=0;
+      m_socketBufferExpectedSize=0;
     }
     return retVal;
   }
@@ -44,9 +44,9 @@ QByteArray XiQNetPeerPrivate::readArray()
     return QByteArray();
 }
 
-void XiQNetPeerPrivate::sendArray(const QByteArray &t_byteArray)
+void XiQNetPeerPrivate::sendArray(const QByteArray &t_byteArray) const
 {
-  if(!(tcpSock && tcpSock->isOpen()))
+  if(!(m_tcpSock && m_tcpSock->isOpen()))
   {
     qDebug()<<"[xiqnet-qt] Failed to send message";
   }
@@ -62,7 +62,7 @@ void XiQNetPeerPrivate::sendArray(const QByteArray &t_byteArray)
     out.device()->seek(0);
     out << (qint32)(block.size() - sizeof(qint32));
 
-    if(tcpSock->write(block)<block.size())
+    if(m_tcpSock->write(block)<block.size())
     {
       qDebug() << "[xiqnet-qt] could not send all data the network is congested";
     }

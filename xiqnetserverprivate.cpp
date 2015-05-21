@@ -7,10 +7,10 @@ XiQNetServerPrivate::XiQNetServerPrivate(XiQNetServer *t_public) : q_ptr(t_publi
 
 XiQNetServerPrivate::~XiQNetServerPrivate()
 {
-  foreach(XiQNetPeer* c, clients)
+  foreach(XiQNetPeer* c, m_clients)
   {
     c->deleteLater();
   }
-  clients.clear();
+  m_clients.clear();
 }
 
