@@ -16,10 +16,9 @@ XiQNetServer::~XiQNetServer()
   delete d_ptr;
 }
 
-QList<XiQNetPeer *> XiQNetServer::getClientList()
+QList<XiQNetPeer *> XiQNetServer::getClientList() const
 {
-  Q_D(XiQNetServer);
-  return d->m_clients;
+  return d_ptr->m_clients;
 }
 
 void XiQNetServer::setDefaultWrapper(XiQNetWrapper *t_wrapper)
@@ -31,10 +30,9 @@ void XiQNetServer::setDefaultWrapper(XiQNetWrapper *t_wrapper)
   }
 }
 
-void XiQNetServer::broadcastMessage(google::protobuf::Message *t_message)
+void XiQNetServer::broadcastMessage(google::protobuf::Message *t_message) const
 {
-  Q_D(XiQNetServer);
-  foreach(XiQNetPeer* c,d->m_clients)
+  foreach(XiQNetPeer* c,d_ptr->m_clients)
   {
     c->sendMessage(t_message);
   }

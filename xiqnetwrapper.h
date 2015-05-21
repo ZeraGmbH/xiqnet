@@ -18,14 +18,14 @@ public:
    * @param bA
    * @return
    */
-  virtual google::protobuf::Message *byteArrayToProtobuf(QByteArray bA) =0;
+  virtual google::protobuf::Message *byteArrayToProtobuf(QByteArray t_byteArray) =0;
 
   /**
    * @brief Serializes a protobuf message to QByteArray
    * @param pMessage
    * @return
    */
-  virtual QByteArray protobufToByteArray(google::protobuf::Message *pMessage) =0;
+  virtual QByteArray protobufToByteArray(google::protobuf::Message *t_protobufMessage) =0;
 };
 
 #endif // PROTOWRAPPER_H

@@ -23,9 +23,9 @@ class XIQNET_QTSHARED_EXPORT XiQNetServer : public QTcpServer
   Q_OBJECT
 public:
   explicit XiQNetServer(QObject* t_parent = 0);
-  ~XiQNetServer();
+  virtual ~XiQNetServer();
 
-  QList<XiQNetPeer*> getClientList();
+  QList<XiQNetPeer*> getClientList() const;
 
   /**
    * @brief Incoming connections use the default XiQNetWrapper for messaging
@@ -45,7 +45,7 @@ public slots:
    * @brief Sends the message to all peers of this server
    * @param pMessage
    */
-  void broadcastMessage(google::protobuf::Message *t_message);
+  void broadcastMessage(google::protobuf::Message *t_message) const;
 
   /**
    * @brief Convenient function for QTcpServer::listen()

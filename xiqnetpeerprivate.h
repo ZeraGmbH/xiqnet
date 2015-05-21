@@ -27,16 +27,15 @@ private:
   void sendArray(const QByteArray &t_byteArray) const;
 
   int m_peerId = -1;
+
+  /**
+   * @brief when a tcp message is split in multiple fragments this will ensure that all fragments are complete
+   * expected size in bytes
+   */
   qint32 m_socketBufferExpectedSize = 0;
-  /**
-   * @brief tcpSock
-   */
   QTcpSocket* m_tcpSock = 0;
-  /**
-   * @brief q_ptr see topic D'Pointer
-   */
-  XiQNetPeer *q_ptr = 0;
   XiQNetWrapper *m_wrapper = 0;
+  XiQNetPeer *q_ptr = 0;
 
   Q_DECLARE_PUBLIC(XiQNetPeer)
 };

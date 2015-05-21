@@ -67,9 +67,10 @@ int XiQNetPeer::getPeerId() const
 
 void XiQNetPeer::setPeerId(int t_peerId)
 {
+  Q_D(XiQNetPeer);
   if(t_peerId>=0)
   {
-    d_ptr->m_peerId = t_peerId;
+    d->m_peerId = t_peerId;
   }
 }
 
