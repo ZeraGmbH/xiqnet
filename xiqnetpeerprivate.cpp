@@ -28,7 +28,7 @@ QByteArray XiQNetPeerPrivate::readArray()
     else
     {
       in >> retVal;
-      if(retVal.isEmpty() || retVal.size()>m_socketBufferExpectedSize)
+      if(retVal.isNull() || retVal.size()>m_socketBufferExpectedSize)
       {
         qWarning() << "[xiqnet-qt] Bytes not available:"
                    << QString("%1/%2, remaining: %3")
