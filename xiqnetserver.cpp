@@ -32,7 +32,7 @@ void XiQNetServer::setDefaultWrapper(XiQNetWrapper *t_wrapper)
 
 void XiQNetServer::broadcastMessage(google::protobuf::Message *t_message) const
 {
-  foreach(XiQNetPeer* c,d_ptr->m_clients)
+  foreach(XiQNetPeer *c,d_ptr->m_clients)
   {
     c->sendMessage(t_message);
   }
@@ -46,9 +46,9 @@ void XiQNetServer::startServer(quint16 t_port)
 
 void XiQNetServer::clientDisconnectedSRV()
 {
-  if(QObject::sender()!=0)
+  if(QObject::sender()!=0) /// @todo redesign to not rely on QObject::sender
   {
-    XiQNetPeer* client = qobject_cast<XiQNetPeer*>(QObject::sender());
+    XiQNetPeer *client = qobject_cast<XiQNetPeer*>(QObject::sender());
     if(client)
     {
       Q_D(XiQNetServer);

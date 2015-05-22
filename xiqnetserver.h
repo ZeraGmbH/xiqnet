@@ -22,7 +22,7 @@ class XIQNET_QTSHARED_EXPORT XiQNetServer : public QTcpServer
 {
   Q_OBJECT
 public:
-  explicit XiQNetServer(QObject* t_parent = 0);
+  explicit XiQNetServer(QObject *t_parent = 0);
   virtual ~XiQNetServer();
 
   QList<XiQNetPeer*> getClientList() const;
@@ -38,7 +38,7 @@ signals:
    * @brief A new client connected
    * @param newClient
    */
-  void sigClientConnected(XiQNetPeer* t_peer);
+  void sigClientConnected(XiQNetPeer *t_peer);
 
 public slots:
   /**
@@ -49,9 +49,7 @@ public slots:
 
   /**
    * @brief Convenient function for QTcpServer::listen()
-   *
-   * Prints out the server port to the debug message handler
-   *
+   * @note Prints out the server port to the debug message handler
    * @param uPort
    */
   void startServer(quint16 t_port);
