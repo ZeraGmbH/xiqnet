@@ -39,6 +39,7 @@ public:
   /**
    * @brief Allows access to the QTcpSocket in case of non protobuf transmission
    * @return QTcpSocket used by this instance
+   * @todo refactor, as this violates the OOP principle "separation of concerns"
    */
   QTcpSocket *getTcpSocket() const;
 
@@ -53,6 +54,8 @@ public:
    * @param value
    */
   void setWrapper(XiQNetWrapper *value);
+
+  QString getErrorString() const;
 
 signals:
   /**

@@ -90,6 +90,11 @@ void XiQNetPeer::setWrapper(XiQNetWrapper *value)
   d->m_wrapper = value;
 }
 
+QString XiQNetPeer::getErrorString() const
+{
+  return d_ptr->m_tcpSock->errorString();
+}
+
 void XiQNetPeer::sendMessage(google::protobuf::Message *t_message) const
 {
   if(isConnected())
