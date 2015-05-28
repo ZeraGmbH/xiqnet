@@ -169,8 +169,6 @@ void XiQNetPeer::onReadyRead()
       //qDebug() << "[proto-net-qt] Message received: "<<newMessage.toBase64();
       google::protobuf::Message *tmpMessage = d->m_wrapper->byteArrayToProtobuf(newMessage);
       sigMessageReceived(tmpMessage);
-      //assuming that only direct connections are used
-      //delete tmpMessage;
       newMessage = d->readArray();
     }
   }
