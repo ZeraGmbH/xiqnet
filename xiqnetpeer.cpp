@@ -25,7 +25,7 @@ XiQNetPeer::XiQNetPeer(qintptr t_socketDescriptor, QObject *t_parent) :
   connect(d->m_tcpSock, &QTcpSocket::disconnected, this, &XiQNetPeer::stopConnection);
   if(!d->m_tcpSock->setSocketDescriptor(t_socketDescriptor))
   {
-    sigSocketError(d->m_tcpSock->error());
+    emit sigSocketError(d->m_tcpSock->error());
     qFatal("[xiqnet-qt] Error setting clients socket descriptor");
     Q_ASSERT(false);
   }
@@ -168,7 +168,7 @@ void XiQNetPeer::onReadyRead()
     {
       //qDebug() << "[proto-net-qt] Message received: "<<newMessage.toBase64();
       google::protobuf::Message *tmpMessage = d->m_wrapper->byteArrayToProtobuf(newMessage);
-      sigMessageReceived(tmpMessage);
+      emit sigMessageReceived(tmpMessage);
       newMessage = d->readArray();
     }
   }

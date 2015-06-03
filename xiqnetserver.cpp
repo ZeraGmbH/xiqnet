@@ -71,5 +71,5 @@ void XiQNetServer::incomingConnection(qintptr t_socketDescriptor)
   }
   d->m_clients.append(client);
   connect(client, &XiQNetPeer::sigConnectionClosed, this, &XiQNetServer::clientDisconnectedSRV);
-  sigClientConnected(client);
+  emit sigClientConnected(client);
 }
