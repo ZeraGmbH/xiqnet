@@ -55,12 +55,12 @@ void XiQNetPeerPrivate::sendArray(const QByteArray &t_byteArray) const
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_4_0);
-    out << (qint32)0;
+    out << static_cast<qint32>(0);
 
     //qDebug()<<"[xiqnet-qt] Sending message:"<<QString(bA.toBase64());
     out << t_byteArray;
     out.device()->seek(0);
-    out << (qint32)(block.size() - sizeof(qint32));
+    out << static_cast<qint32>(block.size() - sizeof(qint32));
 
     if(m_tcpSock->write(block)<block.size())
     {
