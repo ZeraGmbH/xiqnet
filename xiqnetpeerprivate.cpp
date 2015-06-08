@@ -11,7 +11,7 @@ XiQNetPeerPrivate::XiQNetPeerPrivate(XiQNetPeer *t_publicPeer) :  q_ptr(t_public
 QByteArray XiQNetPeerPrivate::readArray()
 {
   // it is at least required to read the expected size
-  if(m_tcpSock->bytesAvailable()>=static_cast<qint64>(sizeof(qint32)))
+  if(Q_LIKELY(m_tcpSock->bytesAvailable()>=4)) // 4 == sizeof(qint32)
   {
     QByteArray retVal;
     QDataStream in(m_tcpSock);
