@@ -54,7 +54,8 @@ void XiQNetServer::clientDisconnectedSRV()
       Q_D(XiQNetServer);
       d->m_clients.removeAll(client);
       //this should be only done if no one uses the client anymore
-      client->deleteLater();
+      //client->deleteLater();
+      delete client;
     }
   }
 }

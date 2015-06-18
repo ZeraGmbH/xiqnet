@@ -146,7 +146,8 @@ void XiQNetPeer::stopConnection()
     d->m_wrapper=0;
 
     d->m_tcpSock->close();
-    d->m_tcpSock->deleteLater();
+    //d->m_tcpSock->deleteLater();
+    delete d->m_tcpSock;
     d->m_tcpSock=0;
     //qDebug() << "disconnected";
   }
