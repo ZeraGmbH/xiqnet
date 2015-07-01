@@ -54,7 +54,7 @@ void XiQNetServer::clientDisconnectedSRV()
       Q_D(XiQNetServer);
       d->m_clients.removeAll(client);
 
-      /* Warning: If you need to delete the sender() of this signal in a slot connected to it, use the deleteLater() function. */
+      /* From the Qt manual: "Warning: If you need to delete the sender() of this signal in a slot connected to it, use the deleteLater() function." */
       client->deleteLater();
     }
   }

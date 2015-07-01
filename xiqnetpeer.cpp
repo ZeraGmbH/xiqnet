@@ -175,7 +175,7 @@ void XiQNetPeer::onReadyRead()
   }
   else
   {
-    qCritical() << "[protonet-qr] No protobuf wrapper set";
+    qCritical() << "[xiqnet-qt] No protobuf wrapper set";
     Q_ASSERT(false);
   }
 }

@@ -1,5 +1,5 @@
-#ifndef H2012_protonet_SERVER_PUB_H
-#define H2012_protonet_SERVER_PUB_H
+#ifndef H2012_xiqnet_SERVER_PUB_H
+#define H2012_xiqnet_SERVER_PUB_H
 
 #include "xiqnet_global.h"
 
@@ -77,4 +77,4 @@ private:
   Q_DECLARE_PRIVATE(XiQNetServer)
 };
 
-#endif // H2012_protonet_SERVER_H
+#endif // H2012_xiqnet_SERVER_H

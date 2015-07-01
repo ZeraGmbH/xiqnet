@@ -1,5 +1,5 @@
-#ifndef H2012_protonet_SERVER_PRIVATE_H
-#define H2012_protonet_SERVER_PRIVATE_H
+#ifndef H2012_xiqnet_SERVER_PRIVATE_H
+#define H2012_xiqnet_SERVER_PRIVATE_H
 
 #include <QList>
 
@@ -21,4 +21,4 @@ class XiQNetServerPrivate
   Q_DECLARE_PUBLIC(XiQNetServer)
 };
 
-#endif // H2012_protonet_SERVER_PRIVATE_H
+#endif // H2012_xiqnet_SERVER_PRIVATE_H
