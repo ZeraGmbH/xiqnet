@@ -53,9 +53,9 @@ void XiQNetServer::clientDisconnectedSRV()
     {
       Q_D(XiQNetServer);
       d->m_clients.removeAll(client);
-      //this should be only done if no one uses the client anymore
-      //client->deleteLater();
-      delete client;
+
+      /* Warning: If you need to delete the sender() of this signal in a slot connected to it, use the deleteLater() function. */
+      client->deleteLater();
     }
   }
 }
