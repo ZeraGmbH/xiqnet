@@ -27,14 +27,18 @@ XiQNetPeer::XiQNetPeer(qintptr t_socketDescriptor, QObject *t_parent) :
   {
     emit sigSocketError(d->m_tcpSock->error());
     qFatal("[xiqnet-qt] Error setting clients socket descriptor");
-    Q_ASSERT(false);
   }
   d->m_tcpSock->setSocketOption(QAbstractSocket::KeepAliveOption, true);
 }
 
 XiQNetPeer::~XiQNetPeer()
 {
+  //From the Qt manual QAbstractSocket::disconnected(): "Warning: If you need to delete the sender() of this signal in a slot connected to it, use the deleteLater() function."
+  //This destructor will be called in such a case so delete the QTcpSocket with deleteLater()
+  d_ptr->m_tcpSock->deleteLater();
+  d_ptr->m_tcpSock=0;
   delete d_ptr;
+  d_ptr=0;
 }
 
 QString XiQNetPeer::getIpAddress() const
