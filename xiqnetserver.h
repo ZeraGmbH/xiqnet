@@ -72,9 +72,6 @@ private:
    * @brief PIMPL pointer
    */
   XiQNetServerPrivate *d_ptr = 0;
-
-  Q_DISABLE_COPY(XiQNetServer)
-  Q_DECLARE_PRIVATE(XiQNetServer)
 };
 
 #endif // H2012_xiqnet_SERVER_H

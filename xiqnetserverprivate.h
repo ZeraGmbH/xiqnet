@@ -17,8 +17,7 @@ class XiQNetServerPrivate
   XiQNetWrapper *m_defaultWrapper = 0;
   XiQNetServer *q_ptr = 0;
 
-  Q_DISABLE_COPY(XiQNetServerPrivate)
-  Q_DECLARE_PUBLIC(XiQNetServer)
+  friend class XiQNetServer;
 };
 
 #endif // H2012_xiqnet_SERVER_PRIVATE_H

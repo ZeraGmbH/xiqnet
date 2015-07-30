@@ -108,9 +108,6 @@ private:
    * @brief PIMPL pointer
    */
   XiQNetPeerPrivate *d_ptr = 0;
-
-  Q_DISABLE_COPY(XiQNetPeer)
-  Q_DECLARE_PRIVATE(XiQNetPeer)
 };
 
 #endif // PROTOPEER_H

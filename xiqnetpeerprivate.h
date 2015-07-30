@@ -37,7 +37,7 @@ private:
   XiQNetWrapper *m_wrapper = 0;
   XiQNetPeer *q_ptr = 0;
 
-  Q_DECLARE_PUBLIC(XiQNetPeer)
+  friend class XiQNetPeer;
 };
 
 #endif // PROTOPEERPRIVATE_H

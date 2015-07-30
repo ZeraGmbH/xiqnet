@@ -25,8 +25,7 @@ void XiQNetServer::setDefaultWrapper(XiQNetWrapper *t_wrapper)
 {
   if(t_wrapper)
   {
-    Q_D(XiQNetServer);
-    d->m_defaultWrapper = t_wrapper;
+    d_ptr->m_defaultWrapper = t_wrapper;
   }
 }
 
@@ -51,10 +50,8 @@ void XiQNetServer::clientDisconnectedSRV()
     XiQNetPeer *client = qobject_cast<XiQNetPeer*>(QObject::sender());
     if(client)
     {
-      Q_D(XiQNetServer);
-      d->m_clients.removeAll(client);
-
-      /* From the Qt manual: "Warning: If you need to delete the sender() of this signal in a slot connected to it, use the deleteLater() function." */
+      d_ptr->m_clients.removeAll(client);
+      ///@note use deletelater to execute other signal slot connections connected to the XiQNetPeer::sigConnectionClosed signal
       client->deleteLater();
     }
   }
@@ -62,15 +59,14 @@ void XiQNetServer::clientDisconnectedSRV()
 
 void XiQNetServer::incomingConnection(qintptr t_socketDescriptor)
 {
-  Q_D(XiQNetServer);
   qDebug()<<"[xiqnet-qt]Client connected";
 
   XiQNetPeer *client = new XiQNetPeer(t_socketDescriptor, this);
-  if(d->m_defaultWrapper)
+  if(d_ptr->m_defaultWrapper)
   {
-    client->setWrapper(d->m_defaultWrapper);
+    client->setWrapper(d_ptr->m_defaultWrapper);
   }
-  d->m_clients.append(client);
+  d_ptr->m_clients.append(client);
   connect(client, &XiQNetPeer::sigConnectionClosed, this, &XiQNetServer::clientDisconnectedSRV);
   emit sigClientConnected(client);
 }
