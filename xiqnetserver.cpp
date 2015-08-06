@@ -39,8 +39,14 @@ void XiQNetServer::broadcastMessage(google::protobuf::Message *t_message) const
 
 void XiQNetServer::startServer(quint16 t_port)
 {
-  this->listen(QHostAddress::Any, t_port);
-  qDebug()<<"[xiqnet-qt]Server Started on port:" << t_port;
+  if(this->listen(QHostAddress::Any, t_port))
+  {
+    qDebug()<<"[xiqnet-qt]Server Started on port:" << t_port;
+  }
+  else
+  {
+    qCritical() <<"[xiqnet-qt]Server could not listen on port:" << t_port << "error:" << errorString();
+  }
 }
 
 void XiQNetServer::clientDisconnectedSRV()
