@@ -6,7 +6,7 @@
 
 
 /**
- * @brief A conveniant wrapper class
+ * @brief A conveniant wrapper class for custom protobuf based classes
  *
  * It has to be implemented to use the "user specific" protocol buffers
  */
@@ -15,14 +15,14 @@ class XiQNetWrapper
 public:
   /**
    * @brief Parses a QByteArray to create a google::protobuf::Message
-   * @param bA
+   * @param t_byteArray
    * @return
    */
   virtual google::protobuf::Message *byteArrayToProtobuf(QByteArray t_byteArray) =0;
 
   /**
    * @brief Serializes a protobuf message to QByteArray
-   * @param pMessage
+   * @param t_protobufMessage
    * @return
    */
   virtual QByteArray protobufToByteArray(google::protobuf::Message *t_protobufMessage) =0;

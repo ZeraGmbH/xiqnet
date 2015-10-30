@@ -8,6 +8,9 @@ class XiQNetPeer;
 class XiQNetServer;
 class XiQNetWrapper;
 
+/**
+ * @brief XiQNetServer PIMPL
+ */
 class XiQNetServerPrivate
 {
   XiQNetServerPrivate(XiQNetServer *t_public);

@@ -19,6 +19,9 @@ namespace google
 
 class QTcpSocket;
 
+/**
+ * @brief Custom QTcpSocket based implementation of a TCP network peer
+ */
 class XIQNET_QTSHARED_EXPORT XiQNetPeer : public QObject
 {
   Q_OBJECT
@@ -68,28 +71,28 @@ signals:
   void sigConnectionClosed();
   /**
    * @brief Emitted when incoming messages arrive
-   * @param pMessage
+   * @param t_Message
    * @note Do not use the pMessage parameter with Qt::QueuedConnection as it may be deleted before the slot is called
    */
   void sigMessageReceived(google::protobuf::Message *t_Message);
   /**
    * @brief Emitted on socket failure
-   * @param socketError
+   * @param t_socketError
    */
   void sigSocketError(QAbstractSocket::SocketError t_socketError);
 
 public slots:
   /**
    * @brief Transmits the message
-   * @param pMessage
+   * @param t_message
    */
   void sendMessage(google::protobuf::Message *t_message) const;
   /**
    * @brief Starts the connection in case of a dedicated host connection
    *
    * Called after Signal/Slot setup
-   * @param ipAddress
-   * @param port
+   * @param t_ipAddress
+   * @param t_port
    */
   void startConnection(QString t_ipAddress, quint16 t_port);
   /**

@@ -18,6 +18,9 @@ namespace google
   }
 }
 
+/**
+ * @brief Custom QTcpServer based implementation of a TCP server
+ */
 class XIQNET_QTSHARED_EXPORT XiQNetServer : public QTcpServer
 {
   Q_OBJECT
@@ -29,28 +32,28 @@ public:
 
   /**
    * @brief Incoming connections use the default XiQNetWrapper for messaging
-   * @param wrapper
+   * @param t_wrapper
    */
   void setDefaultWrapper(XiQNetWrapper *t_wrapper);
 
 signals:
   /**
    * @brief A new client connected
-   * @param newClient
+   * @param t_peer
    */
   void sigClientConnected(XiQNetPeer *t_peer);
 
 public slots:
   /**
    * @brief Sends the message to all peers of this server
-   * @param pMessage
+   * @param t_message
    */
   void broadcastMessage(google::protobuf::Message *t_message) const;
 
   /**
    * @brief Convenient function for QTcpServer::listen()
    * @note Prints out the server port to the debug message handler
-   * @param uPort
+   * @param t_port
    */
   void startServer(quint16 t_port);
 
@@ -63,7 +66,7 @@ protected slots:
 protected:
   /**
    * @brief Override of QTcpServer function
-   * @param sockDesc
+   * @param t_socketDescriptor
    */
   void incomingConnection(qintptr t_socketDescriptor) override;
 

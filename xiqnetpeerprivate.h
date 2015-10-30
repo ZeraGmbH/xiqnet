@@ -9,6 +9,9 @@ class XiQNetPeer;
 
 class QTcpSocket;
 
+/**
+ * @brief XiQNetPeer PIMPL
+ */
 class XiQNetPeerPrivate
 {
 private:
@@ -22,7 +25,7 @@ private:
 
   /**
    * @brief sendByteArray
-   * @param[in] bA Data that will be sent
+   * @param[in] t_byteArray Data that will be sent
    */
   void sendArray(const QByteArray &t_byteArray) const;
 
