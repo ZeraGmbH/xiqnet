@@ -48,7 +48,7 @@ void XiQNetPeerPrivate::sendArray(const QByteArray &t_byteArray) const
 {
   if(!(m_tcpSock && m_tcpSock->isOpen()))
   {
-    qDebug()<<"[xiqnet-qt] Failed to send message";
+    qDebug()<<"[xiqnet-qt] Failed to send message, socket is not open";
   }
   else
   {
