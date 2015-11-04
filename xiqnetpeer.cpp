@@ -70,10 +70,9 @@ int XiQNetPeer::getPeerId() const
 
 void XiQNetPeer::setPeerId(int t_peerId)
 {
-  if(t_peerId>=0)
-  {
-    d_ptr->m_peerId = t_peerId;
-  }
+  Q_ASSERT(t_peerId>=0);
+
+  d_ptr->m_peerId = t_peerId;
 }
 
 QTcpSocket *XiQNetPeer::getTcpSocket() const
@@ -98,79 +97,51 @@ QString XiQNetPeer::getErrorString() const
 
 void XiQNetPeer::sendMessage(google::protobuf::Message *t_message) const
 {
-  if(isConnected())
-  {
-    if(d_ptr->m_wrapper)
-    {
-      d_ptr->sendArray(d_ptr->m_wrapper->protobufToByteArray(t_message));
-    }
-    else
-    {
-      qCritical() << "[xiqnet-qt] No protobuf wrapper set";
-      Q_ASSERT(false);
-    }
-  }
-  else
-  {
-    qWarning() << "[xiqnet-qt] Trying to send data to disconnected host:" << getIpAddress();
-  }
+  Q_ASSERT_X(isConnected(), __FUNCTION__, "[xiqnet-qt] Trying to send data to disconnected host.");
+  Q_ASSERT(d_ptr->m_wrapper != 0);
+
+  d_ptr->sendArray(d_ptr->m_wrapper->protobufToByteArray(t_message));
 }
 
 void XiQNetPeer::startConnection(QString t_ipAddress, quint16 t_port)
 {
-  if(d_ptr->m_tcpSock==0)
-  {
-    d_ptr->m_tcpSock= new QTcpSocket(this);
+  //the tcp socket must not exist at this point
+  Q_ASSERT_X(d_ptr->m_tcpSock==0, __FUNCTION__, "[xiqnet-qt] Do not re-use ProtoPeer instances, delete & recreate instead");
 
-    connect(d_ptr->m_tcpSock, &QTcpSocket::connected, this, &XiQNetPeer::sigConnectionEstablished);
-    connect(d_ptr->m_tcpSock, &QTcpSocket::readyRead, this, &XiQNetPeer::onReadyRead);
-    connect(d_ptr->m_tcpSock, &QTcpSocket::disconnected, this, &XiQNetPeer::sigConnectionClosed);
-    connect(d_ptr->m_tcpSock, SIGNAL(error(QAbstractSocket::SocketError)), this, SIGNAL(sigSocketError(QAbstractSocket::SocketError)));
-    connect(d_ptr->m_tcpSock, &QTcpSocket::disconnected, this, &XiQNetPeer::stopConnection);
-    d_ptr->m_tcpSock->connectToHost(t_ipAddress, t_port);
-    d_ptr->m_tcpSock->setSocketOption(QAbstractSocket::KeepAliveOption, true);
-  }
-  else
-  {
-    qCritical() << "[xiqnet-qt] Do not re-use ProtoPeer instances, delete & recreate instead";
-    Q_ASSERT(false);
-  }
+  d_ptr->m_tcpSock= new QTcpSocket(this);
+
+  connect(d_ptr->m_tcpSock, &QTcpSocket::connected, this, &XiQNetPeer::sigConnectionEstablished);
+  connect(d_ptr->m_tcpSock, &QTcpSocket::readyRead, this, &XiQNetPeer::onReadyRead);
+  connect(d_ptr->m_tcpSock, &QTcpSocket::disconnected, this, &XiQNetPeer::sigConnectionClosed);
+  connect(d_ptr->m_tcpSock, SIGNAL(error(QAbstractSocket::SocketError)), this, SIGNAL(sigSocketError(QAbstractSocket::SocketError)));
+  connect(d_ptr->m_tcpSock, &QTcpSocket::disconnected, this, &XiQNetPeer::stopConnection);
+  d_ptr->m_tcpSock->connectToHost(t_ipAddress, t_port);
+  d_ptr->m_tcpSock->setSocketOption(QAbstractSocket::KeepAliveOption, true);
+
 }
 
 void XiQNetPeer::stopConnection()
 {
-  if(d_ptr->m_tcpSock)
-  {
-    //void out the wrapper
-    d_ptr->m_wrapper=0;
+  Q_ASSERT(d_ptr->m_tcpSock);
 
-    d_ptr->m_tcpSock->close();
-    //qDebug() << "disconnected";
-  }
-  else
-  {
-    qCritical() << "[xiqnet-qt] Tried to execute stopConnection on null pointer";
-    Q_ASSERT(false);
-  }
+  //void out the wrapper
+  d_ptr->m_wrapper=0;
+
+  d_ptr->m_tcpSock->close();
+  //qDebug() << "disconnected";
 }
 
 void XiQNetPeer::onReadyRead()
 {
-  if(d_ptr->m_wrapper)
+  Q_ASSERT(d_ptr->m_wrapper != 0);
+
+  QByteArray newMessage;
+  newMessage = d_ptr->readArray();
+  while(!newMessage.isNull())
   {
-    QByteArray newMessage;
+    //qDebug() << "[proto-net-qt] Message received: "<<newMessage.toBase64();
+    google::protobuf::Message *tmpMessage = d_ptr->m_wrapper->byteArrayToProtobuf(newMessage);
+    emit sigMessageReceived(tmpMessage);
     newMessage = d_ptr->readArray();
-    while(!newMessage.isNull())
-    {
-      //qDebug() << "[proto-net-qt] Message received: "<<newMessage.toBase64();
-      google::protobuf::Message *tmpMessage = d_ptr->m_wrapper->byteArrayToProtobuf(newMessage);
-      emit sigMessageReceived(tmpMessage);
-      newMessage = d_ptr->readArray();
-    }
-  }
-  else
-  {
-    qCritical() << "[xiqnet-qt] No protobuf wrapper set";
-    Q_ASSERT(false);
   }
 }

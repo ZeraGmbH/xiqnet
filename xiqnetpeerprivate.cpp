@@ -46,25 +46,21 @@ QByteArray XiQNetPeerPrivate::readArray()
 
 void XiQNetPeerPrivate::sendArray(const QByteArray &t_byteArray) const
 {
-  if(!(m_tcpSock && m_tcpSock->isOpen()))
-  {
-    qDebug()<<"[xiqnet-qt] Failed to send message, socket is not open";
-  }
-  else
-  {
-    QByteArray block;
-    QDataStream out(&block, QIODevice::WriteOnly);
-    out.setVersion(QDataStream::Qt_4_0);
-    out << static_cast<qint32>(0);
+  Q_ASSERT(m_tcpSock != 0);
+  Q_ASSERT(m_tcpSock->isOpen());
 
-    //qDebug()<<"[xiqnet-qt] Sending message:"<<QString(bA.toBase64());
-    out << t_byteArray;
-    out.device()->seek(0);
-    out << static_cast<qint32>(block.size() - sizeof(qint32));
+  QByteArray block;
+  QDataStream out(&block, QIODevice::WriteOnly);
+  out.setVersion(QDataStream::Qt_4_0);
+  out << static_cast<qint32>(0);
 
-    if(m_tcpSock->write(block)<block.size())
-    {
-      qDebug() << "[xiqnet-qt] could not send all data the network is congested";
-    }
+  //qDebug()<<"[xiqnet-qt] Sending message:"<<QString(bA.toBase64());
+  out << t_byteArray;
+  out.device()->seek(0);
+  out << static_cast<qint32>(block.size() - sizeof(qint32));
+
+  if(m_tcpSock->write(block)<block.size())
+  {
+    qDebug() << "[xiqnet-qt] could not send all data the network is congested";
   }
 }
