@@ -23,10 +23,8 @@ QList<XiQNetPeer *> XiQNetServer::getClientList() const
 
 void XiQNetServer::setDefaultWrapper(XiQNetWrapper *t_wrapper)
 {
-  if(t_wrapper)
-  {
-    d_ptr->m_defaultWrapper = t_wrapper;
-  }
+  Q_ASSERT(t_wrapper != 0);
+  d_ptr->m_defaultWrapper = t_wrapper;
 }
 
 void XiQNetServer::broadcastMessage(google::protobuf::Message *t_message) const
