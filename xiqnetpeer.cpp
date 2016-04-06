@@ -97,7 +97,7 @@ QString XiQNetPeer::getErrorString() const
 
 void XiQNetPeer::sendMessage(google::protobuf::Message *t_message) const
 {
-  Q_ASSERT_X(isConnected(), __FUNCTION__, "[xiqnet-qt] Trying to send data to disconnected host.");
+  Q_ASSERT_X(isConnected(), __PRETTY_FUNCTION__, "[xiqnet-qt] Trying to send data to disconnected host.");
   Q_ASSERT(d_ptr->m_wrapper != 0);
 
   d_ptr->sendArray(d_ptr->m_wrapper->protobufToByteArray(t_message));
@@ -106,7 +106,7 @@ void XiQNetPeer::sendMessage(google::protobuf::Message *t_message) const
 void XiQNetPeer::startConnection(QString t_ipAddress, quint16 t_port)
 {
   //the tcp socket must not exist at this point
-  Q_ASSERT_X(d_ptr->m_tcpSock==0, __FUNCTION__, "[xiqnet-qt] Do not re-use ProtoPeer instances, delete & recreate instead");
+  Q_ASSERT_X(d_ptr->m_tcpSock==0, __PRETTY_FUNCTION__, "[xiqnet-qt] Do not re-use ProtoPeer instances, delete & recreate instead");
 
   d_ptr->m_tcpSock= new QTcpSocket(this);
 
