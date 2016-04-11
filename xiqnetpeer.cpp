@@ -52,15 +52,7 @@ quint16 XiQNetPeer::getPort() const
 
 bool XiQNetPeer::isConnected() const
 {
-  if(d_ptr->m_tcpSock)
-  {
-    return (d_ptr->m_tcpSock->state()==QTcpSocket::ConnectedState
-            || d_ptr->m_tcpSock->state()==QTcpSocket::BoundState);
-  }
-  else
-  {
-    return false;
-  }
+  return d_ptr->m_tcpSock && (d_ptr->m_tcpSock->state()==QTcpSocket::ConnectedState || d_ptr->m_tcpSock->state()==QTcpSocket::BoundState);
 }
 
 int XiQNetPeer::getPeerId() const
