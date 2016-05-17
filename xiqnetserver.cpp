@@ -49,15 +49,13 @@ void XiQNetServer::startServer(quint16 t_port)
 
 void XiQNetServer::clientDisconnectedSRV()
 {
-  if(QObject::sender()!=0) /// @todo redesign to not rely on QObject::sender
-  {
-    XiQNetPeer *client = qobject_cast<XiQNetPeer*>(QObject::sender());
-    Q_ASSERT(client != 0);
+  Q_ASSERT(QObject::sender()!=0); /// @todo redesign to not rely on QObject::sender
+  XiQNetPeer *client = qobject_cast<XiQNetPeer*>(QObject::sender());
+  Q_ASSERT(client != 0);
 
-    d_ptr->m_clients.removeAll(client);
-    ///@note use deletelater to execute other signal slot connections connected to the XiQNetPeer::sigConnectionClosed signal
-    client->deleteLater();
-  }
+  d_ptr->m_clients.removeAll(client);
+  ///@note use deletelater to execute other signal slot connections connected to the XiQNetPeer::sigConnectionClosed signal
+  client->deleteLater();
 }
 
 void XiQNetServer::incomingConnection(qintptr t_socketDescriptor)

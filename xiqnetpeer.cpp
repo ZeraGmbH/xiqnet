@@ -109,7 +109,6 @@ void XiQNetPeer::startConnection(QString t_ipAddress, quint16 t_port)
   connect(d_ptr->m_tcpSock, &QTcpSocket::disconnected, this, &XiQNetPeer::stopConnection);
   d_ptr->m_tcpSock->connectToHost(t_ipAddress, t_port);
   d_ptr->m_tcpSock->setSocketOption(QAbstractSocket::KeepAliveOption, true);
-
 }
 
 void XiQNetPeer::stopConnection()
