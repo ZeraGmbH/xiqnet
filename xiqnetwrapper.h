@@ -2,7 +2,14 @@
 #define PROTOWRAPPER_H
 
 #include <QByteArray>
-#include <google/protobuf/message.h>
+
+namespace google
+{
+  namespace protobuf
+  {
+    class Message;
+  }
+}
 
 
 /**

@@ -63,6 +63,6 @@ void XiQNetPeerPrivate::sendArray(const QByteArray &t_byteArray) const
 
   if(m_tcpSock->write(block)<block.size())
   {
-    qDebug() << "[xiqnet-qt] could not send all data the network is congested";
+    qWarning() << "[xiqnet-qt] could not send all data, the network is congested";
   }
 }

@@ -43,7 +43,7 @@ void XiQNetServer::startServer(quint16 t_port)
   }
   else
   {
-    qCritical() <<"[xiqnet-qt]Server could not listen on port:" << t_port << "error:" << errorString();
+    qCritical() << "[xiqnet-qt]Server could not listen on port:" << t_port << "error:" << errorString();
   }
 }
 
