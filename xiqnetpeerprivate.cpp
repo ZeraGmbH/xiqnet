@@ -2,7 +2,9 @@
 
 #include <QDataStream>
 #include <QTcpSocket>
-
+#ifdef UNUSED_TCP_DEBUG
+#include <netinet/tcp.h>
+#endif //UNUSED_TCP_DEBUG
 
 XiQNetPeerPrivate::XiQNetPeerPrivate(XiQNetPeer *t_publicPeer) :  q_ptr(t_publicPeer)
 {
@@ -65,4 +67,26 @@ void XiQNetPeerPrivate::sendArray(const QByteArray &t_byteArray) const
   {
     qWarning() << "[xiqnet-qt] could not send all data, the network is congested";
   }
+
+#ifdef UNUSED_TCP_DEBUG
+  struct tcp_info tcpInfo;
+  socklen_t tisize = sizeof(tcpInfo);
+
+  if ( getsockopt(m_tcpSock->socketDescriptor(), SOL_TCP, TCP_INFO, &tcpInfo, &tisize) == 0 )
+  {
+    qWarning() << "Socket info:" <<
+                  "last_data_sent" << tcpInfo.tcpi_last_data_sent << //usecs since last data sent
+                  "last_data_recv" << tcpInfo.tcpi_last_data_recv << //usecs since last data received
+                  "snd_cwnd" << tcpInfo.tcpi_snd_cwnd << //send congestion window
+                  "snd_ssthresh" << tcpInfo.tcpi_snd_ssthresh << //slow start send threshold
+                  "rcv_ssthresh" << tcpInfo.tcpi_rcv_ssthresh << //slow start receive threshold
+                  "rtt" << tcpInfo.tcpi_rtt << //smoothed round trip time in usecs (only updates when sending data)
+                  "rttvar" << tcpInfo.tcpi_rttvar << //round trip time variance in usecs (only updates when sending data)
+                  "unacked" << tcpInfo.tcpi_unacked <<
+                  "sacked" << tcpInfo.tcpi_sacked << //selective acked
+                  "lost" << tcpInfo.tcpi_lost <<
+                  "retrans" << tcpInfo.tcpi_retrans <<
+                  "fackets" << tcpInfo.tcpi_fackets; //forward acked
+  }
+#endif //UNUSED_TCP_DEBUG
 }
