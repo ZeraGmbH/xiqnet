@@ -20,6 +20,7 @@ namespace google
 class XiQNetWrapper
 {
 public:
+  virtual ~XiQNetWrapper() {}
   /**
    * @brief Parses a QByteArray to create a google::protobuf::Message
    * @param t_byteArray

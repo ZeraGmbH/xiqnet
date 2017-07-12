@@ -70,9 +70,9 @@ void XiQNetPeerPrivate::sendArray(const QByteArray &t_byteArray) const
 
 #ifdef UNUSED_TCP_DEBUG
   struct tcp_info tcpInfo;
-  socklen_t tisize = sizeof(tcpInfo);
+  socklen_t tiSize = sizeof(tcpInfo);
 
-  if ( getsockopt(m_tcpSock->socketDescriptor(), SOL_TCP, TCP_INFO, &tcpInfo, &tisize) == 0 )
+  if ( getsockopt(m_tcpSock->socketDescriptor(), SOL_TCP, TCP_INFO, &tcpInfo, &tiSize) == 0 )
   {
     qWarning() << "Socket info:" <<
                   "last_data_sent" << tcpInfo.tcpi_last_data_sent << //usecs since last data sent
@@ -86,6 +86,7 @@ void XiQNetPeerPrivate::sendArray(const QByteArray &t_byteArray) const
                   "sacked" << tcpInfo.tcpi_sacked << //selective acked
                   "lost" << tcpInfo.tcpi_lost <<
                   "retrans" << tcpInfo.tcpi_retrans <<
+                  "reordering" << tcpInfo.tcpi_reordering <<
                   "fackets" << tcpInfo.tcpi_fackets; //forward acked
   }
 #endif //UNUSED_TCP_DEBUG
