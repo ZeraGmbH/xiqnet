@@ -23,7 +23,7 @@ QList<XiQNetPeer *> XiQNetServer::getClientList() const
 
 void XiQNetServer::setDefaultWrapper(XiQNetWrapper *t_wrapper)
 {
-  Q_ASSERT(t_wrapper != 0);
+  Q_ASSERT(t_wrapper != nullptr);
   d_ptr->m_defaultWrapper = t_wrapper;
 }
 
@@ -49,9 +49,9 @@ void XiQNetServer::startServer(quint16 t_port)
 
 void XiQNetServer::clientDisconnectedSRV()
 {
-  Q_ASSERT(QObject::sender()!=0); /// @todo redesign to not rely on QObject::sender
+  Q_ASSERT(QObject::sender()!=nullptr); /// @todo redesign to not rely on QObject::sender
   XiQNetPeer *client = qobject_cast<XiQNetPeer*>(QObject::sender());
-  Q_ASSERT(client != 0);
+  Q_ASSERT(client != nullptr);
 
   d_ptr->m_clients.removeAll(client);
   ///@note use deletelater to execute other signal slot connections connected to the XiQNetPeer::sigConnectionClosed signal

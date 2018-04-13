@@ -36,9 +36,9 @@ private:
    * expected size in bytes
    */
   qint32 m_socketBufferExpectedSize = 0;
-  QTcpSocket *m_tcpSock = 0;
-  XiQNetWrapper *m_wrapper = 0;
-  XiQNetPeer *q_ptr = 0;
+  QTcpSocket *m_tcpSock = nullptr;
+  XiQNetWrapper *m_wrapper = nullptr;
+  XiQNetPeer *q_ptr = nullptr;
 
   friend class XiQNetPeer;
 };

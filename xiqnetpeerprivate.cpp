@@ -50,7 +50,7 @@ QByteArray XiQNetPeerPrivate::readArray()
 
 void XiQNetPeerPrivate::sendArray(const QByteArray &t_byteArray) const
 {
-  Q_ASSERT(m_tcpSock != 0);
+  Q_ASSERT(m_tcpSock != nullptr);
   Q_ASSERT(m_tcpSock->isOpen());
 
   QByteArray block(t_byteArray.size() + 4, '\0'); // 4 == sizeof(qint32)

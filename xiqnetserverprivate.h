@@ -17,8 +17,8 @@ class XiQNetServerPrivate
   ~XiQNetServerPrivate();
 
   QList<XiQNetPeer*> m_clients;
-  XiQNetWrapper *m_defaultWrapper = 0;
-  XiQNetServer *q_ptr = 0;
+  XiQNetWrapper *m_defaultWrapper = nullptr;
+  XiQNetServer *q_ptr = nullptr;
 
   friend class XiQNetServer;
 };

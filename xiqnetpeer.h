@@ -26,8 +26,8 @@ class XIQNET_QTSHARED_EXPORT XiQNetPeer : public QObject
 {
   Q_OBJECT
 public:
-  explicit XiQNetPeer(QObject *t_parent = 0);
-  explicit XiQNetPeer(qintptr t_socketDescriptor, QObject *t_parent = 0);
+  explicit XiQNetPeer(QObject *t_parent = nullptr);
+  explicit XiQNetPeer(qintptr t_socketDescriptor, QObject *t_parent = nullptr);
 
   ~XiQNetPeer();
 
@@ -110,7 +110,7 @@ private:
   /**
    * @brief PIMPL pointer
    */
-  XiQNetPeerPrivate *d_ptr = 0;
+  XiQNetPeerPrivate *d_ptr = nullptr;
 };
 
 #endif // PROTOPEER_H

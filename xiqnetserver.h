@@ -25,7 +25,7 @@ class XIQNET_QTSHARED_EXPORT XiQNetServer : public QTcpServer
 {
   Q_OBJECT
 public:
-  explicit XiQNetServer(QObject *t_parent = 0);
+  explicit XiQNetServer(QObject *t_parent = nullptr);
   virtual ~XiQNetServer();
 
   QList<XiQNetPeer*> getClientList() const;
@@ -74,7 +74,7 @@ private:
   /**
    * @brief PIMPL pointer
    */
-  XiQNetServerPrivate *d_ptr = 0;
+  XiQNetServerPrivate *d_ptr = nullptr;
 };
 
 #endif // H2012_xiqnet_SERVER_H
