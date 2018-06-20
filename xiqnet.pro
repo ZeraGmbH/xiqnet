@@ -23,6 +23,14 @@ unix:LIBS += -lprotobuf
 android:LIBS+= -L/home/samuel/tmp/android-protobuf/android_libs/protobuf/obj/local/armeabi-v7a/ -lprotobuf
 android:INCLUDEPATH+="/home/samuel/tmp/android-protobuf/android_libs/protobuf/jni/src/"
 
+isEmpty(XIQ_NO_SYSTEMD) {
+  message(systemd support enabled)
+  # Link to libsystemd shared library using pkg-config:
+  CONFIG += link_pkgconfig
+  PKGCONFIG += libsystemd
+  DEFINES += XIQ_SYSTEMD_ENABLED
+}
+
 # Input
 PUBLIC_HEADERS = \
                  xiqnet_global.h \
