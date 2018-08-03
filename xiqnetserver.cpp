@@ -31,7 +31,7 @@ void XiQNetServer::setDefaultWrapper(XiQNetWrapper *t_wrapper)
   d_ptr->m_defaultWrapper = t_wrapper;
 }
 
-void XiQNetServer::broadcastMessage(google::protobuf::Message *t_message) const
+void XiQNetServer::broadcastMessage(const google::protobuf::Message &t_message) const
 {
   for(XiQNetPeer *tmpClient : d_ptr->m_clients)
   {

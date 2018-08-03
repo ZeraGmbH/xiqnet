@@ -48,7 +48,7 @@ public slots:
    * @brief Sends the message to all peers of this server
    * @param t_message
    */
-  void broadcastMessage(google::protobuf::Message *t_message) const;
+  void broadcastMessage(const google::protobuf::Message &t_message) const;
 
   /**
    * @brief Convenient function for QTcpServer::listen()

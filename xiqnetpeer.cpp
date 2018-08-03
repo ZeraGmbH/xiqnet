@@ -87,7 +87,7 @@ QString XiQNetPeer::getErrorString() const
   return d_ptr->m_tcpSock->errorString();
 }
 
-void XiQNetPeer::sendMessage(google::protobuf::Message *t_message) const
+void XiQNetPeer::sendMessage(const google::protobuf::Message &t_message) const
 {
   Q_ASSERT_X(isConnected(), __PRETTY_FUNCTION__, "[xiqnet-qt] Trying to send data to disconnected host.");
   Q_ASSERT(d_ptr->m_wrapper != nullptr);
@@ -98,7 +98,7 @@ void XiQNetPeer::sendMessage(google::protobuf::Message *t_message) const
 void XiQNetPeer::startConnection(QString t_ipAddress, quint16 t_port)
 {
   //the tcp socket must not exist at this point
-  Q_ASSERT_X(d_ptr->m_tcpSock==nullptr, __PRETTY_FUNCTION__, "[xiqnet-qt] Do not re-use ProtoPeer instances, delete & recreate instead");
+  Q_ASSERT_X(d_ptr->m_tcpSock==nullptr, __PRETTY_FUNCTION__, "[xiqnet-qt] Do not re-use XiQNetPeer instances, delete & recreate instead");
 
   d_ptr->m_tcpSock= new QTcpSocket(this);
 
@@ -131,8 +131,7 @@ void XiQNetPeer::onReadyRead()
   while(!newMessage.isNull())
   {
     //qDebug() << "[proto-net-qt] Message received: "<<newMessage.toBase64();
-    google::protobuf::Message *tmpMessage = d_ptr->m_wrapper->byteArrayToProtobuf(newMessage);
-    emit sigMessageReceived(tmpMessage);
+    emit sigMessageReceived(d_ptr->m_wrapper->byteArrayToProtobuf(newMessage));
     newMessage = d_ptr->readArray();
   }
 }
