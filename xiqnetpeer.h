@@ -66,7 +66,7 @@ signals:
    * @param t_Message
    * @bug Do not use the t_Message parameter with Qt::QueuedConnection as it may be deleted before the slot is called
    */
-  void sigMessageReceived(ProtobufPointer t_Message);
+  void sigMessageReceived(std::shared_ptr<google::protobuf::Message> t_Message);
   /**
    * @brief Emitted on socket failure
    * @param t_socketError

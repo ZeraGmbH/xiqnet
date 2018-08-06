@@ -27,7 +27,7 @@ public:
    * @param t_byteArray
    * @return
    */
-  virtual ProtobufPointer byteArrayToProtobuf(QByteArray t_byteArray) =0;
+  virtual std::shared_ptr<google::protobuf::Message> byteArrayToProtobuf(QByteArray t_byteArray) =0;
 
   /**
    * @brief Serializes a protobuf message to QByteArray
