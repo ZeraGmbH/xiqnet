@@ -24,7 +24,7 @@ android:LIBS+= -L/home/samuel/tmp/android-protobuf/android_libs/protobuf/obj/loc
 android:INCLUDEPATH+="/home/samuel/tmp/android-protobuf/android_libs/protobuf/jni/src/"
 
 isEmpty(XIQ_NO_SYSTEMD) {
-  message(systemd support enabled)
+  message(xiqnet systemd support enabled)
   # Link to libsystemd shared library using pkg-config:
   CONFIG += link_pkgconfig
   PKGCONFIG += libsystemd
