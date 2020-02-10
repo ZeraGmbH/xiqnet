@@ -25,7 +25,7 @@ include(FeatureSummary)
 include(GNUInstallDirs)
 
 #Find dependecies
-find_package(Qt5 COMPONENTS Core Qml CONFIG REQUIRED)
+find_package(Qt5 COMPONENTS Core Network CONFIG REQUIRED)
 find_package(Protobuf REQUIRED)
 
 
@@ -62,8 +62,8 @@ add_library(xiqnet SHARED
 target_link_libraries(xiqnet 
     PRIVATE
     Qt5::Core
-    Qt5::Qml
     PUBLIC
+    Qt5::Network
     ${Protobuf_LIBRARIES}   
     )
 
