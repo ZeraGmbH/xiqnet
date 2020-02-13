@@ -14,7 +14,7 @@ class QTcpSocket;
 /**
  * @brief Custom QTcpSocket based implementation of a TCP network peer
  */
-class XIQNET_QTSHARED_EXPORT XiQNetPeer : public QObject
+class XIQNET_EXPORT XiQNetPeer : public QObject
 {
   Q_OBJECT
 public:

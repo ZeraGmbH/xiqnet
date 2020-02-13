@@ -3,7 +3,7 @@
 
 #include <QtCore/qglobal.h>
 #include <memory>
-
+#include "xiqnet_export.h"
 
 /*! \mainpage protobuf networking class-library
  *
@@ -23,11 +23,5 @@ namespace google
     class Message;
   }
 }
-
-#if defined(XIQNET_LIBRARY)
-#  define XIQNET_QTSHARED_EXPORT Q_DECL_EXPORT
-#else
-#  define XIQNET_QTSHARED_EXPORT Q_DECL_IMPORT
-#endif
 
 #endif // PROTO_NET_GLOBAL_H

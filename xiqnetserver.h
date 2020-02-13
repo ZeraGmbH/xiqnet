@@ -21,7 +21,7 @@ namespace google
 /**
  * @brief Custom QTcpServer based implementation of a TCP server
  */
-class XIQNET_QTSHARED_EXPORT XiQNetServer : public QTcpServer
+class XIQNET_EXPORT XiQNetServer : public QTcpServer
 {
   Q_OBJECT
 public:
