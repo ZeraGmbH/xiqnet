@@ -28,11 +28,10 @@ include(GNUInstallDirs)
 find_package(Qt5 COMPONENTS Core Network CONFIG REQUIRED)
 find_package(Protobuf REQUIRED)
 
-
-
 if(${useSystemd})
     find_package(PkgConfig REQUIRED)
     pkg_check_modules(Systemd REQUIRED libsystemd)
+    add_definitions(-DXIQ_SYSTEMD_ENABLED)
 endif()
 
 
