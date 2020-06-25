@@ -14,9 +14,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 option(useSystemd "Using libsystemd" ON)
 
 #Set project Version
-set(xiqnet_VERSION_MAJOR "0")
-set(xiqnet_VERSION_MINOR "0")
-set(xiqnet_VERSION_PATCH "1")
+set(xiqnet_VERSION_MAJOR "1")
+set(xiqnet_VERSION_MINOR "3")
+set(xiqnet_VERSION_PATCH "0")
 
 set(PROJECT_VERSION "${xiqnet_VERSION_MAJOR}.${xiqnet_VERSION_MINOR}.${xiqnet_VERSION_PATCH}")
 
