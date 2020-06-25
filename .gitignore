@@ -25,6 +25,7 @@ ui_*.h
 qrc_*.cpp
 Thumbs.db
 *.pb.*
+CMakeLists.txt.user*
 
 # qtcreator generated files
 *.pro.user*
