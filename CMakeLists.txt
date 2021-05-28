@@ -27,6 +27,7 @@ include(GNUInstallDirs)
 #Find dependecies
 find_package(Qt5 COMPONENTS Core Network CONFIG REQUIRED)
 find_package(Protobuf REQUIRED)
+find_package(zeraprotobuf REQUIRED)
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(Systemd REQUIRED libsystemd)
@@ -58,6 +59,7 @@ target_link_libraries(xiqnet
     Qt5::Core
     Qt5::Network
     ${Protobuf_LIBRARIES}   
+    VeinMeta::zeraprotobuf
     )
 
 

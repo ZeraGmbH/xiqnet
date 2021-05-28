@@ -34,7 +34,7 @@ public:
    * @param t_protobufMessage
    * @return
    */
-  virtual QByteArray protobufToByteArray(const google::protobuf::Message &t_protobufMessage) =0;
+  virtual QByteArray protobufToByteArray(const google::protobuf::Message &t_protobufMessage);
 };
 
 #endif // PROTOWRAPPER_H
