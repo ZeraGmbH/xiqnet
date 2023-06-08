@@ -2,6 +2,7 @@
 #define PROTOPEER_H
 
 #include "xiqnet_global.h"
+#include "xiqnet_export.h"
 
 #include <QObject>
 #include <QString>

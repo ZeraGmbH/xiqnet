@@ -3,7 +3,6 @@
 
 #include <QtCore/qglobal.h>
 #include <memory>
-#include "xiqnet_export.h"
 
 namespace google
 {

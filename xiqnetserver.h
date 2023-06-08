@@ -2,6 +2,7 @@
 #define H2012_xiqnet_SERVER_PUB_H
 
 #include "xiqnet_global.h"
+#include "xiqnet_export.h"
 
 #include <QTcpServer>
 
@@ -10,17 +11,7 @@
 class XiQNetServerPrivate;
 class XiQNetPeer;
 class XiQNetWrapper;
-namespace google
-{
-  namespace protobuf
-  {
-    class Message;
-  }
-}
 
-/**
- * @brief Custom QTcpServer based implementation of a TCP server
- */
 class XIQNET_EXPORT XiQNetServer : public QTcpServer
 {
   Q_OBJECT
